@@ -1,0 +1,19 @@
+<button ng-click="ctrl.cancel()" class="right media no-style"><span class="icon sm multiply"></span></button>
+<form class="column el x100">
+  <fieldset class="noLegend noBG">
+
+    <div class="group addManyRow" ng-repeat="item in ctrl.items">
+      <div class="field column x90">
+        <input type="text" ng-model="item.name" ng-change="$last && ctrl.addBlankItem()" class="x100" placeholder="name" autocomplete="off">
+      </div>
+      <div class="field column">
+        <a ng-click="ctrl.removeItem($index)" ng-hide="$first && $last" class="button no-style media" tabindex="-1" style="display: inline-block;"><span class="icon trashcan"></span></a>
+      </div>
+    </div>
+
+  </fieldset>
+</form>
+<footer class="column el right form-actions">
+  <a class="button no-style" ng-disabled="ctrl.saving" tabindex="-1" ng-click="ctrl.cancel()" ng-i18next>Cancel</a>
+  <button class="save" ng-click="ctrl.save({items:ctrl.items})" ng-class="{spinning:ctrl.saving}" ng-disabled="ctrl.saving">{{ctrl.saveButtonText | i18next}}<span class="spinner"></span></button>
+</footer>

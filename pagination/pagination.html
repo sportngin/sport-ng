@@ -1,0 +1,13 @@
+<aside class="group pagination">
+  <div class="hide-if-empty hide-if-loading" ng-if="totalPages > 1">
+    <ul class="column x100">
+      <li><a href class="paginate first" ng-disabled="currentPage == 1" ng-click="ctrl.getPage(1)">First</a></li>
+      <li><button class="paginate prev no-style" ng-disabled="currentPage == 1" ng-click="ctrl.getPage(currentPage - 1)">&lt;</button></li>
+      <li ng-repeat="n in pageRange">
+        <a href ng-class="{current : n == currentPage}" ng-click="ctrl.getPage(n)">{{n}}</a>
+      </li>
+      <li><button class="paginate next no-style" ng-disabled="currentPage == totalPages" ng-click="ctrl.getPage(currentPage + 1)">&gt;</button></li>
+      <li><a href class="paginate last" ng-disabled="currentPage == totalPages" ng-click="ctrl.getPage(totalPages)">Last</a></li>
+    </ul>
+  </div>
+</aside>

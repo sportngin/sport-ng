@@ -1,0 +1,4 @@
+<div ng-repeat="alert in alerts" class="alert {{alert.type}}">
+  <button ng-show="alert.dismissable" ng-click="close(alert)" class="right media no-style"><span class="icon sm multiply"></span></button>
+  <p ng-i18next="[html:i18next]({{alert.options}}){{alert.message}}"></p>
+</div>
