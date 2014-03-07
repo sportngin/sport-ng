@@ -1,112 +1,106 @@
-var assert = chai.assert
-
 describe('Alerts Service', function() {
 
   beforeEach(module('sport.ng'))
 
-  it('should have `alerts` array.', inject(['Alerts', function(Alerts) {
-    assert.isArray(Alerts.alerts, 'alerts should be an array')
-  }]))
+  it('should have `alerts` array.', inject(function(Alerts) {
+    expect(Alerts.alerts).toEqual([])
+  }))
 
-  it('should add alert to alerts array with `show`.', inject(['Alerts', function(Alerts) {
+  it('should add alert to alerts array with `show`.', inject(function(Alerts) {
     Alerts.show('info', 'message')
     var alert = Alerts.alerts[0]
-    assert.equal(alert.type, 'info', 'alert type should be info')
-    assert.equal(alert.message, 'message', 'alert message should be message')
-  }]))
+    expect(alert.type).toEqual('info')
+    expect(alert.message).toEqual('message')
+  }))
 
 
   describe('Alerts.show arguments', function() {
 
-    it('should accept optional `options` argument as an object.', inject(['Alerts', function(Alerts) {
+    it('should accept optional `options` argument as an object.', inject(function(Alerts) {
       var opts = { x:1 }
       Alerts.show('info', 'msg', opts)
       var alert = Alerts.alerts[0]
-      assert.equal(alert.options, opts, 'alert options should match passed options')
-    }]))
+      expect(alert.options).toEqual(opts)
+    }))
 
-    it('should default `dismissable` to true.', inject(['Alerts', function(Alerts) {
+    it('should default `dismissable` to true.', inject(function(Alerts) {
       Alerts.show('info', 'msg')
       var alert = Alerts.alerts[0]
-      assert.strictEqual(alert.dismissable, true, 'dismissable should be true')
-    }]))
+      expect(alert.dismissable).toEqual(true)
+    }))
 
-    it('should accept optional `dismissable` argument as a boolean.', inject(['Alerts', function(Alerts) {
+    it('should accept optional `dismissable` argument as a boolean.', inject(function(Alerts) {
       var opts = { x:1 }
       Alerts.show('info', 'msg', false)
       var alert = Alerts.alerts[0]
-      assert.strictEqual(alert.dismissable, false, 'dismissable should be false')
-    }]))
+      expect(alert.dismissable).toEqual(false)
+    }))
 
   })
 
 
   describe('Alerts.show duration', function() {
 
-    it('should set timer for automatic removal of alert', function() {
-      inject(['Alerts', '$timeout', function(Alerts, $timeout) {
-        Alerts.show('info', 'msg')
-        assert.strictEqual(Alerts.alerts.length, 1, 'Alert should exist.')
-        $timeout.flush()
-        assert.strictEqual(Alerts.alerts.length, 0, 'Alert should have been removed.')
-      }])
-    })
+    it('should set timer for automatic removal of alert', inject(function(Alerts, $timeout) {
+      Alerts.show('info', 'msg')
+      expect(Alerts.alerts.length).toEqual(1)
+      $timeout.flush()
+      expect(Alerts.alerts.length).toEqual(0)
+    }))
 
-    it('should not remove when duration set to zero.', function() {
-      inject(['Alerts', '$timeout', function(Alerts, $timeout) {
-        Alerts.show('info', 'msg', 0)
-        var alert = Alerts.alerts[0]
-        assert.notOk(alert._timer, 'Alert timer should not exist.')
-      }])
-    })
+    it('should not remove when duration set to zero.', inject(function(Alerts, $timeout) {
+      Alerts.show('info', 'msg', 0)
+      var alert = Alerts.alerts[0]
+      expect(alert._timer).toBeFalsy()
+    }))
 
   })
 
 
   describe('Alerts.show aliases', function() {
 
-    it('should add alert to alerts array with `info`.', inject(['Alerts', function(Alerts) {
+    it('should add alert to alerts array with `info`.', inject(function(Alerts) {
       Alerts.info('message')
       var alert = Alerts.alerts[0]
-      assert.equal(alert.type, 'info', 'alert type should be info')
-    }]))
+      expect(alert.type).toEqual('info')
+    }))
 
-    it('should add alert to alerts array with `success`.', inject(['Alerts', function(Alerts) {
+    it('should add alert to alerts array with `success`.', inject(function(Alerts) {
       Alerts.success('message')
       var alert = Alerts.alerts[0]
-      assert.equal(alert.type, 'success', 'alert type should be success')
-    }]))
+      expect(alert.type).toEqual('success')
+    }))
 
-    it('should add alert to alerts array with `error`.', inject(['Alerts', function(Alerts) {
+    it('should add alert to alerts array with `error`.', inject(function(Alerts) {
       Alerts.error('message')
       var alert = Alerts.alerts[0]
-      assert.equal(alert.type, 'error', 'alert type should be error')
-    }]))
+       expect(alert.type).toEqual('error')
+    }))
 
-    it('should add alert to alerts array with `warning`.', inject(['Alerts', function(Alerts) {
+    it('should add alert to alerts array with `warning`.', inject(function(Alerts) {
       Alerts.warning('message')
       var alert = Alerts.alerts[0]
-      assert.equal(alert.type, 'warning', 'alert type should be warning')
-    }]))
+      expect(alert.type).toEqual('warning')
+    }))
 
   })
 
 
   describe('Alerts.remove', function() {
 
-    it('should remove the alert', inject(['Alerts', function(Alerts) {
+    it('should remove the alert', inject(function(Alerts) {
       Alerts.info('message')
-      assert.strictEqual(Alerts.alerts.length, 1, 'one alert should exist')
+      expect(Alerts.alerts.length).toEqual(1)
       Alerts.remove(Alerts.alerts[0])
-      assert.strictEqual(Alerts.alerts.length, 0, 'no alert should exist')
-    }]))
+      expect(Alerts.alerts.length).toEqual(0)
+    }))
 
-    it('should not error when removing an alert with 0 duration', inject(['Alerts', function(Alerts) {
+    it('should not error when removing an alert with 0 duration', inject(function(Alerts) {
       Alerts.info('message', 0)
-      assert.strictEqual(Alerts.alerts.length, 1, 'one alert should exist')
+      expect(Alerts.alerts.length).toEqual(1)
       Alerts.remove(Alerts.alerts[0])
-      assert.strictEqual(Alerts.alerts.length, 0, 'no alert should exist')
-    }]))
+      expect(Alerts.alerts.length).toEqual(0)
+    }))
 
   })
 

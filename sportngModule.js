@@ -1,1 +1,7 @@
-angular.module('sport.ng', ['ng', 'jm.i18next'])
+angular.module('sport.ng', [
+  'ng',
+  'ngAnimate',
+  'ngRoute',
+  'ngSanitize',
+  'jm.i18next'
+])

@@ -1,0 +1,38 @@
+{
+  "name": "sport.ng",
+  "version": "0.0.1",
+  "description": "Sport Ngin's Common Angular Components",
+  "main": "./server.js",
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "karma": "~0.10",
+    "karma-coffee-preprocessor": "~0.1.3",
+    "karma-chrome-launcher": "~0.1.2",
+    "karma-firefox-launcher": "~0.1.3",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "karma-jasmine": "~0.2.0",
+    "karma-phantomjs-launcher": "~0.1.2",
+    "karma-requirejs": "~0.2.1",
+    "karma-script-launcher": "~0.1.0",
+    "requirejs": "~2.1.11"
+  },
+  "engines": {
+    "npm": ">=1.1.21"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sportngin/sport-ng.git"
+  },
+  "scripts": {
+    "test": "NODE_ENV=test mocha --recursive -R spec",
+    "start": "node server.js | node_modules/nokomis/node_modules/bunyan/bin/bunyan",
+    "watch": "nodemon --watch app server.js | node_modules/nokomis/node_modules/bunyan/bin/bunyan",
+    "boot": "grunt boot; grunt watch & nodemon --watch ./ server.js | node_modules/nokomis/node_modules/bunyan/bin/bunyan",
+    "debug": "node --debug server.js | node_modules/nokomis/node_modules/bunyan/bin/bunyan",
+    "dbg-brk": "node --debug-brk server.js | node_modules/nokomis/node_modules/bunyan/bin/bunyan"
+  },
+  "author": "TST Media",
+  "license": "private"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "sport.ng",
+  "version": "0.0.1",
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "angular": "1.2.10",
+    "angular-animate": "1.2.10",
+    "angular-resource": "1.2.10",
+    "angular-route": "1.2.10",
+    "angular-sanitize": "1.2.10",
+    "i18next": "1.7.1",
+    "jquery": "~2.1.0",
+    "ng-i18next": "0.2.9",
+    "tether": "~0.5.2",
+    "underscore": "1.5.2",
+    "angular-mocks": "1.2.10",
+    "angular-scenario": "1.2.10"
+  }
+}
