@@ -3,7 +3,8 @@ Contribute
 
 1. Install dependencies
 
-   ```npm Install```
+   ```npm install```
+   ```npm install -g bower```
 
 2. Project setup:
 
