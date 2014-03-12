@@ -32,7 +32,7 @@ angular.module('sport.ng')
       controllerAs: 'ctrl',
 
       templateUrl: function(tElement, tAttrs) {
-        return tAttrs.templateUrl || '/components/addMany/addMany.html'
+        return tAttrs.templateUrl || '/bower_components/sport-ng/addMany/addMany.html'
       },
 
       controller: function($scope) {

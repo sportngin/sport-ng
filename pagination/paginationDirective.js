@@ -13,7 +13,7 @@ angular.module('sport.ng')
       controllerAs: 'ctrl',
 
       templateUrl: function(tElement, tAttrs) {
-        return tAttrs.templateUrl || '/components/pagination/pagination.html'
+        return tAttrs.templateUrl || '/bower_components/sport-ng/pagination/pagination.html'
       },
 
       controller: function($scope) {

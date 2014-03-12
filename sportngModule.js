@@ -1,1 +1,0 @@
-angular.module('sport.ng', ['ng', 'jm.i18next'])

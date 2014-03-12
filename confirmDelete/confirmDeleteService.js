@@ -44,7 +44,7 @@ angular.module('sport.ng')
       controllerAs: 'ctrl',
 
       templateUrl: function(tElement, tAttrs) {
-        return tAttrs.templateUrl || '/components/confirmDelete/confirmDelete.html'
+        return tAttrs.templateUrl || '/bower_components/sport-ng/confirmDelete/confirmDelete.html'
       },
 
       controller: function confirmDeleteController($scope) {
