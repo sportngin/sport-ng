@@ -26,7 +26,7 @@ module.exports = function(config) {
       'bower_components/underscore/underscore.js',
 
       // App code
-      'sportngModule.js',
+      'sport-ng.js',
       './!(node_modules|*bower_components)/**/!(*-test).js',
 
       // Test files
