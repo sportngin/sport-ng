@@ -19,7 +19,7 @@ angular.module('sport.ng')
         'showing': '='
       },
       transclude: true,
-      templateUrl: '/components/modal/modal.html',
+      templateUrl: '/bower_components/sport-ng/modal/modal.html',
 
       link: function link(scope, element, attrs) {
         // copy the options we care about

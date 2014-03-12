@@ -52,7 +52,7 @@ angular.module('sport.ng')
     return {
       restrict: 'E',
       scope: {},
-      templateUrl: '/components/alerts/alerts.html',
+      templateUrl: '/bower_components/sport-ng/alerts/alerts.html',
 
       controller: function alertsDirectiveCtrl($scope) {
         $scope.alerts = Alerts.alerts
