@@ -12,8 +12,6 @@ Contribute
 Install via Bower
 ==============
 
-1. Add the following line to the ```dependencies``` section of your bower.json file:
+1. Run the following command in your project's root folder (where bower.json lives):
 
-```json
-    "sport-ng": "https://github.com/sportngin/sport-ng.git"
-```
+```bower install --save https://github.com/sportngin/sport-ng.git```
