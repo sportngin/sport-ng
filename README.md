@@ -4,7 +4,10 @@ Contribute
 1. Install dependencies
 
    ```npm install```
+
    ```npm install -g bower```
+
+   ```bower install```
 
 2. Project setup:
 
