@@ -1,18 +1,27 @@
 Contribute
 ===============
 
-1. Install dependencies
+1. **Install dependencies**
 
    ```npm install```
+
+   ```npm install -g karma-cli```
+
    ```npm install -g bower```
 
-2. Project setup:
+   ```bower install```
+
+2. **Project setup:**
 
     ```grunt setup```
 
-2. Run the unit tests:
+2. **Run the unit tests:**
 
-    ```grunt test```
+    ```grunt test``` - to run the all tests once in phantom js.
+
+    ```karma start``` - start the karma test runner that will run all tests in Chrome, Firefox, and PhantomJS whenever a project file changes.
+
+
 
 Install via Bower
 ==============
