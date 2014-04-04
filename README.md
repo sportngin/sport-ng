@@ -1,7 +1,7 @@
 Contribute
 ===============
 
-1. Install dependencies
+1. **Install dependencies**
 
    ```npm install```
 
@@ -11,11 +11,11 @@ Contribute
 
    ```bower install```
 
-2. Project setup:
+2. **Project setup:**
 
     ```grunt setup```
 
-2. Run the unit tests:
+2. **Run the unit tests:**
 
     ```grunt test``` - to run the all tests once in phantom js.
 
