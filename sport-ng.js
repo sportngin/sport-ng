@@ -5,3 +5,5 @@ angular.module('sport.ng', [
   'ngSanitize',
   'jm.i18next'
 ])
+
+var sportng = {}
