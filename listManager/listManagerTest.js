@@ -1,11 +1,14 @@
 var items = [
-  {"id":1,"name":"Football","ngin_sport_id":11},
-  {"id":3,"name":"Ice Hockey","ngin_sport_id":1},
-  {"id":6,"name":"Baseball","ngin_sport_id":4}
+  {"id":1,"name":"Football"},
+  {"id":3,"name":"Ice Hockey"},
+  {"id":6,"name":"Baseball"}
 ]
 
 describe('ListManager', function() {
-  var list
+
+  var list,
+      itemCount = 0,
+      newItem = {"id":8,"name":"Soccer"}
 
   beforeEach(module('sport.ng'))
 
@@ -26,11 +29,9 @@ describe('ListManager', function() {
 
   describe('ListManager#addItem', function() {
 
-    var itemCount = 0
-    var newItem = {"id":8,"name":"Soccer","ngin_sport_id":4}
 
     beforeEach(function() {
-      itemCount = list.getItems().length
+      itemCount = items.length
       list.addItem(newItem)
     })
 
@@ -44,23 +45,23 @@ describe('ListManager', function() {
 
   })
 
-  // describe('ListManager#removeItem', function() {
+  describe('ListManager#removeItem', function() {
 
-  //   var itemCount = 0
+    var item = items[0]
 
-  //   beforeEach(function() {
-  //     itemCount = list.getItems().length
-  //     list.removeItem(items[0])
-  //   })
+    beforeEach(function() {
+      itemCount = items.length
+      list.removeItem(item)
+    })
 
-  //   it('should add the item to the top of the list', function() {
-  //     expect(list.firstItem()).toEqual(newItem)
-  //   })
+    it('should remove the item from the list', function() {
+      expect(list.getItems().indexOf(item)).toEqual(-1)
+    })
 
-  //   it('should decrease the item count', function() {
-  //     expect(list.getItems().length).toEqual(itemCount+1)
-  //   })
+    it('should decrease the item count', function() {
+      expect(list.getItems().length).toEqual(itemCount-1)
+    })
 
-  // })
+  })
 
 })
