@@ -4,7 +4,7 @@ angular.module('sport.ng')
   .factory('ListManager', function($controller) {
 
     return function(getItems) {
-      return $controller(ListManager, { getItems: getItems })
+      return new ListManager(getItems)
     }
 
     function ListManager(getItems) {
