@@ -30,11 +30,7 @@ module.exports = function(config) {
       './!(node_modules|*bower_components)/**/!(*-test).js',
 
       // Test files
-      'addMany/*-test.js',
-      'alerts/*-test.js',
-      'confirmDelete/*-test.js',
-      'modal/*-test.js',
-      'pagination/*-test.js'
+      './!(node_modules|*bower_components)/**/*-test.js'
     ],
 
 
