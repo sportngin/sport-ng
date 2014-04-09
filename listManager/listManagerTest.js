@@ -64,4 +64,31 @@ describe('ListManager', function() {
 
   })
 
+  describe('ListManager#firstItem', function() {
+
+    var firstItem = items[0]
+
+    var emptyList = sportng.ListManager(function() {
+          return []
+        })
+
+    var nullList = sportng.ListManager(function() {
+          return null
+        })
+
+    it('should return the first item in the list', function() {
+      expect(list.firstItem()).toBe(list.getItems()[0])
+    })
+
+    it('should return null when list is empty', function() {
+
+      expect(emptyList.firstItem()).toBe(null)
+    })
+
+    it('should return null when list is null', function() {
+      expect(nullList.firstItem()).toBe(null)
+    })
+
+  })
+
 })
