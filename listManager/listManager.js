@@ -1,26 +1,38 @@
-sportng.ListManager = function ListManager(getItems) {
+'use strict'
 
-  this.getItems = getItems
+angular.module('sport.ng')
+  .factory('ListManager', function($controller) {
 
-  function addItem(item) {
-    getItems().unshift(item)
-  }
+    return function(getItems) {
+      return new ListManager(getItems)
+    }
 
-  function removeItem(item) {
-    var list = getItems()
-    list.splice(list.indexOf(item), 1)
-  }
+    function ListManager(getItems) {
 
-  function firstItem() {
-    var list = getItems()
-    if (!list || list.length < 1) return null
-    return getItems()[0]
-  }
+      this.getItems = getItems
 
-  return {
-    addItem: addItem,
-    removeItem: removeItem,
-    firstItem: firstItem,
-    getItems: getItems
-  }
-}
+      function addItem(item) {
+        getItems().unshift(item)
+      }
+
+      function removeItem(item) {
+        var list = getItems()
+        list.splice(list.indexOf(item), 1)
+      }
+
+      function firstItem() {
+        var list = getItems()
+        if (!list || list.length < 1) return null
+        return getItems()[0]
+      }
+
+      return {
+        addItem: addItem,
+        removeItem: removeItem,
+        firstItem: firstItem,
+        getItems: getItems
+      }
+    }
+
+  })
+

@@ -7,17 +7,18 @@ var items = [
 describe('ListManager', function() {
 
   var list,
+      emptyList,
+      nullList,
       itemCount = 0,
       newItem = {"id":8,"name":"Soccer"}
 
   beforeEach(module('sport.ng'))
 
-  beforeEach(function() {
-    var getItems = function() {
-      return items
-    }
-    list = sportng.ListManager(getItems)
-  })
+  beforeEach(inject(function(ListManager) {
+    list = ListManager(function() { return items })
+    emptyList = ListManager(function() { return [] })
+    nullList = ListManager(function() { return null })
+  }))
 
   describe('ListManager#contructor', function() {
 
@@ -28,7 +29,6 @@ describe('ListManager', function() {
   })
 
   describe('ListManager#addItem', function() {
-
 
     beforeEach(function() {
       itemCount = items.length
@@ -66,22 +66,11 @@ describe('ListManager', function() {
 
   describe('ListManager#firstItem', function() {
 
-    var firstItem = items[0]
-
-    var emptyList = sportng.ListManager(function() {
-          return []
-        })
-
-    var nullList = sportng.ListManager(function() {
-          return null
-        })
-
     it('should return the first item in the list', function() {
       expect(list.firstItem()).toBe(list.getItems()[0])
     })
 
     it('should return null when list is empty', function() {
-
       expect(emptyList.firstItem()).toBe(null)
     })
 
