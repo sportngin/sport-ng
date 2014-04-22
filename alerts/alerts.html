@@ -1,6 +1,6 @@
 <div>
   <div ng-repeat="alert in alerts" class="alert {{alert.type}}" style="overflow: hidden; display: block;">
     <button ng-show="alert.dismissable" ng-click="close(alert)" class="right media no-style"><span class="icon sm multiply"></span></button>
-    <p ng-i18next="[html:i18next]({{alert.options}}){{alert.message}}"></p>
+    <p>{{ alert.message | t:alert.options }}</p>
   </div>
 </div>
