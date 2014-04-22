@@ -1,6 +1,6 @@
 {
   "name": "sport.ng",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Sport Ngin's Common Angular Components",
   "main": "./server.js",
   "dependencies": {},
