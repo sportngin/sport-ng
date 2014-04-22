@@ -21,7 +21,6 @@ module.exports = function(config) {
       'bower_components/angular-route/angular-route.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/i18next/release/i18next-1.7.1.min.js',
-      'bower_components/ng-i18next/dist/ng-i18next.js',
       'bower_components/tether/tether.js',
       'bower_components/underscore/underscore.js',
 
