@@ -2,5 +2,6 @@ angular.module('sport.ng', [
   'ng',
   'ngAnimate',
   'ngRoute',
-  'ngSanitize'
+  'ngSanitize',
+  'i18ng'
 ])

@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "main": "./sport-ng.js",
   "dependencies": {
-
+    "i18ng": "~0.1.0"
   },
   "devDependencies": {
     "angular": "1.2.10",
