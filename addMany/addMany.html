@@ -14,6 +14,6 @@
   </fieldset>
 </form>
 <footer class="column el right form-actions">
-  <a class="button no-style" ng-disabled="ctrl.saving" tabindex="-1" ng-click="ctrl.cancel()">{{ 'Cancel' | t}}</a>
+  <a class="button no-style" ng-disabled="ctrl.saving" tabindex="-1" ng-click="ctrl.cancel()">{{ 'Cancel' | t }}</a>
   <button class="save" ng-click="ctrl.save({items:ctrl.items})" ng-class="{spinning:ctrl.saving}" ng-disabled="ctrl.saving">{{ctrl.saveButtonText | i18next}}<span class="spinner"></span></button>
 </footer>
