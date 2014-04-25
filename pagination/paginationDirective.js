@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sport.ng')
-  .directive('pagination', function paginationDirective(_) {
+  .directive('pagination', function paginationDirective() {
 
     return {
       restrict: 'E',
@@ -27,7 +27,10 @@ angular.module('sport.ng')
         })
 
         function setRange() {
-          $scope.pageRange = _.range(1, $scope.totalPages + 1)
+          $scope.pageRange = []
+          for (var i = 0; i < $scope.totalPages; i+=1) {
+            $scope.pageRange[i] = i+1
+          }
         }
 
         setRange()

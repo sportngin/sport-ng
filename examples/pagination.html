@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="example">
+<head>
+  <title>sport-ng examples</title>
+  <link rel="stylesheet" href="http://s3.amazonaws.com/sportngin-snap-staging/base_package/latest/base_package.css" />
+</head>
+<body ng-controller="myController">
+
+
+  <pagination get-page="getPage(page)" total-pages="totalPages" current-page="currentPage" template-url="../pagination/pagination.html"></pagination>
+
+
+  <script src="../bower_components/jquery/dist/jquery.js"></script>
+  <script src="../bower_components/angular/angular.js"></script>
+  <script src="../bower_components/angular-animate/angular-animate.js"></script>
+  <script src="../bower_components/angular-route/angular-route.js"></script>
+  <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="../bower_components/i18next/i18next.min.js"></script>
+  <script src="../bower_components/i18ng/i18ng.js"></script>
+  <script src="../sport-ng.js"></script>
+  <script src="../pagination/paginationDirective.js"></script>
+
+  <script>
+
+  angular.module('example', ['sport.ng'])
+    .controller('myController', function($scope) {
+
+      $scope.totalPages = 10
+      $scope.currentPage = 1
+
+      $scope.getPage = function(page) {
+        $scope.currentPage = page
+      }
+
+    })
+
+  </script>
+
+</body>
+</html>
