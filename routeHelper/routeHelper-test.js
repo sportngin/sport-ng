@@ -9,27 +9,31 @@ describe('Route', function () {
     }
   }
 
-  var route
+  var route, $routeProvider
   var routeNames = ['tournament.advancement', 'TournamentAdvancementController']
 
   beforeEach(module('sport.ng'))
 
-  beforeEach(inject(function (Route) {
+  beforeEach(inject(function (Route, _$route_) {
       route = Route
+      $route = _$route_
+      $route.routes = {
+        '/tournaments/:id/advancement/:flightId?/:flightStageId?': {
+          reloadOnSearch:true,
+          templateUrl:"/tournament/advancement/tournament-advancement.html",
+          controller:"TournamentAdvancementController as ctrl",
+          name:"tournament.advancement",
+          originalPath:"/tournaments/:id/advancement/:flightId?/:flightStageId?",
+          regexp:/^\/tournaments\/(?:([^\/]+))\/advancement(?:\/([^\/]+)?)?(?:\/([^\/]+)?)?$/,
+          keys:[{name:"id", optional:false}, {name:"flightId", optional:true}, {name:"flightStageId", optional:true}]
+        }
+      }
   }))
 
   describe('.urlFor()', function () {
     beforeEach(function () {
       spyOn(console, 'error')
     })
-
-    // Testing route defined as:
-    //
-    //     .when('/tournaments/:id/advancement/:flightId?/:flightStageId?', {
-    //       templateUrl: '/tournament/advancement/tournament-advancement.html',
-    //       controller: 'TournamentAdvancementController as ctrl',
-    //       name: 'tournament.advancement'
-    //     })
 
     angular.forEach(routeNames, function(name) {
       it(name+': should build a url that omits optional route params', function () {
@@ -98,31 +102,4 @@ describe('Route', function () {
     })
   })
 
-  // describe('.updateCurrent()', function (){
-
-  //   beforeEach(inject(function(_$httpBackend_, _$location_, _$rootScope_, _$route_) {
-  //     $httpBackend = _$httpBackend_
-  //     $location = _$location_
-  //     $rootScope = _$rootScope_
-  //     $route = _$route_
-
-  //     // Setup initial route state for test(s)
-  //     url = route.urlFor('tournament.advancement', {id: 1})
-  //     $httpBackend.expect('GET', '/tournament/advancement/tournament-advancement.html').respond('')
-  //     $location.url(url)
-  //     $rootScope.$digest()
-  //     expect($route.current.params.flightId)
-  //       .toBe(undefined)
-  //   }))
-
-  //   it('should update the route with new params', function() {
-  //     var newId = 'BOGUS_FLIGHT'
-
-  //     route.updateCurrent({flightId: newId})
-
-  //     expect($location.url).toBeCalledWith(url + '/BOGUS_FLIGHT')
-
-  //     $httpBackend.flush()
-  //   })
-  // }) // END - updateCurrent()
 })
