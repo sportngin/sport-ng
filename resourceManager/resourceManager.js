@@ -19,16 +19,23 @@ angular.module('sport.ng')
   .factory('ResourceManager', function($resource) {
 
     var ResourceManager = function(config) {
+      // ensure that ResourceManager is called with `new`
+      if (!(this instanceof ResourceManager))
+        return new ResourceManager(config)
+
+      // created $resource objects are cached
+      var cache = {}
 
       config.forEach(function(conf) {
         if (!conf.name) throw new Error('Property "name" is required in resource config.')
         if (!conf.url) throw new Error('Property "url" is required in resource config.')
 
+        // use a property getter so the $resource isn't created until it's needed
         Object.defineProperty(this, conf.name, {
           get: function() {
-            if (!config.instance)
-              config.instance = $resource(config.url, config.paramDefaults, config.actions, config.options)
-            return config.instance
+            if (!cache[conf.name]) // create it if not in cache
+              cache[conf.name] = $resource(conf.url, conf.paramDefaults, conf.actions, conf.options)
+            return cache[conf.name]
           },
           enumerable: true,
         })
