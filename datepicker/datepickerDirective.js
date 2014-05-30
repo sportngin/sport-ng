@@ -25,6 +25,12 @@ date attribute:
 // state of the state
 var refocusing = false
 
+// try to use built-in international date formatter
+var formatter
+if ('Intl' in window) {
+  formatter = window.Intl.DateTimeFormat(undefined, {day:'numeric', month:'short', year:'numeric'})
+}
+
 function monthName(month) {
   return ['January', 'February', 'March', 'April',
           'May', 'June', 'July', 'August', 'September',
@@ -49,7 +55,8 @@ function previousMonth(year, month) {
 
 function displayFormat(date) {
   if (!date || !date.valueOf || !date.valueOf()) return ''
-  return monthName(date.getMonth()).substring(0, 3) + ' ' + date.getDate() + ' ' + date.getFullYear()
+  if (formatter) return formatter.format(date)
+  return monthName(date.getMonth()).substring(0, 3) + ' ' + date.getDate() + ', ' + date.getFullYear()
 }
 
 function stringToDate(val) {
@@ -249,7 +256,6 @@ angular.module('sport.ng')
             scope.showing = true
             tether.position()
           })
-
 
       }
     }
