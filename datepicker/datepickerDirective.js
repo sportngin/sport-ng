@@ -252,7 +252,7 @@ angular.module('sport.ng')
               target: target[0],
               attachment: 'top left',
               targetAttachment: 'bottom left',
-              offset: '-8px 0',
+              offset: '-16px 0',
               constraints: [{ to: 'scrollParent', attachment: 'together' }]
             })
 
