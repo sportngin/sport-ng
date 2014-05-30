@@ -77,7 +77,7 @@ function stringToDate(val) {
   return date.valueOf() ? date : null
 }
 
-function calendarDays(year, month) {
+function calendarDays(year, month, date) {
   var pmonth = previousMonth(year, month)
   var dim = daysInMonth(year, month)
   var pdim = daysInMonth(pmonth.year, pmonth.month)
@@ -186,10 +186,13 @@ angular.module('sport.ng')
         element.on('mouseup', function() { clicking = false })
 
         function setScope(year, month) {
+          var date = DatepickerService.date
+          var day = date && date.getMonth() == month && date.getFullYear() == year ? date.getDate() : null
+          scope.date = day
           scope.month = month
           scope.year = year
           scope.monthName = monthName(month)
-          scope.calDays = calendarDays(year, month)
+          scope.calDays = calendarDays(year, month, day)
         }
 
         function hide() {
@@ -206,7 +209,8 @@ angular.module('sport.ng')
           }, 1)
         }
 
-        scope.select = function(year, month, date) {
+        scope.select = function(year, month, date, disabled) {
+          if (disabled) return
           var newDate = new Date(year, month, date)
           DatepickerService.set(newDate)
           hide()
@@ -234,7 +238,6 @@ angular.module('sport.ng')
         scope.$watch(
           function() { return DatepickerService.date },
           function(date, oldVal) {
-            scope.date = date ? date.getDate() : null
             if (!date) date = new Date()
             setScope(date.getFullYear(), date.getMonth())
           })
@@ -256,6 +259,7 @@ angular.module('sport.ng')
             scope.showing = true
             tether.position()
           })
+
 
       }
     }
