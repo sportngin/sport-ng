@@ -154,6 +154,7 @@ angular.module('sport.ng')
     var currentCallback = null
     var picker = {
       show: function(element, date, callback) {
+        if (element === picker.element) return
         currentCallback = callback
         picker.element = element
         picker.date = date
