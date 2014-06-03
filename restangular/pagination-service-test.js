@@ -5,7 +5,7 @@ var fixture = {
 
 var modelFixture = {id:1, name: 'foo'}
 
-describe('FlightStage', function() {
+describe('PaginationService', function() {
   var restAngular, $httpBackend
 
   beforeEach(module('sport.ng'))
@@ -34,7 +34,7 @@ describe('FlightStage', function() {
       $httpBackend.whenGET('/mock').respond(fixture)
     })
 
-    it('should respond to teamNameForSeed', function(){
+    it('should extend collection with metadata when paginated', function(){
       $httpBackend.expectGET('/mock');
       restAngular.all('mock').getList().then(function(results){
         expect(results.metadata).toBeDefined()
@@ -57,7 +57,7 @@ describe('FlightStage', function() {
       $httpBackend.whenGET('/mock/1').respond(modelFixture)
     })
 
-    it('should respond to teamNameForSeed', function(){
+    it('should not extend collection with metadata when not paginated', function(){
       $httpBackend.expectGET('/mock/1');
       restAngular.one('mock', 1).get().then(function(result){
         expect(result.metadata).not.toBeDefined()
