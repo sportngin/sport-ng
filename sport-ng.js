@@ -3,5 +3,6 @@ angular.module('sport.ng', [
   'ngAnimate',
   'ngRoute',
   'ngSanitize',
-  'i18ng'
+  'i18ng',
+  'restangular'
 ])

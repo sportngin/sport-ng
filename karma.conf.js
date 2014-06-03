@@ -23,6 +23,7 @@ module.exports = function(config) {
       'bower_components/i18ng/i18ng.js',
       'bower_components/tether/tether.js',
       'bower_components/underscore/underscore.js',
+      'bower_components/restangular/src/restangular.js',
 
       // App code
       'sport-ng.js',
