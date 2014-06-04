@@ -1,6 +1,6 @@
 {
   "name": "sport.ng",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "main": "./sport-ng.js",
   "dependencies": {
     "i18ng": "~0.1.0"
