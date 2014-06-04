@@ -77,6 +77,8 @@ function stringToDate(val) {
   return date.valueOf() ? date : null
 }
 
+// Returns an array of arrays for the given month.
+// Each array represents a week and contains seven days.
 function calendarDays(year, month, date) {
   var pmonth = previousMonth(year, month)
   var dim = daysInMonth(year, month)
@@ -125,9 +127,12 @@ angular.module('sport.ng')
           scope.displayDate = displayFormat(scope.date)
         }
 
+        scope.$watch('date', function(date, oldVal) {
+          scope.displayDate = displayFormat(date)
+        })
+
         function setDate(date) {
           scope.date = date
-          scope.displayDate = displayFormat(date)
         }
 
         scope.show = function() {
@@ -243,12 +248,15 @@ angular.module('sport.ng')
             setScope(date.getFullYear(), date.getMonth())
           })
 
+        var tetherRef
         scope.$watch(
           function() { return DatepickerService.element },
           function(target, oldVal) {
             if (!target) return scope.showing = false
+            if (tetherRef) tetherRef.destroy()
 
-            var tether = new Tether({
+            scope.showing = true
+            tetherRef = new Tether({
               element: element[0],
               target: target[0],
               attachment: 'top left',
@@ -256,12 +264,7 @@ angular.module('sport.ng')
               offset: '-16px 0',
               constraints: [{ to: 'scrollParent', attachment: 'together' }]
             })
-
-            scope.showing = true
-            tether.position()
           })
-
-
       }
     }
 
