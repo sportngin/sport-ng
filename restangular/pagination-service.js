@@ -29,7 +29,7 @@ angular.module('sport.ng')
     return function(data, operation, what, url, response, deferred) {
       var extractedData
       if (operation === "getList") {
-        extractedData = data.results
+        extractedData = data.result
         extractedData.metadata = data.metadata
       } else {
         extractedData = data
