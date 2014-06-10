@@ -1,0 +1,18 @@
+<modal showing="ctrl.config.showing" close="ctrl.cancel()">
+  <div class="group padded" ng-class="{'danger-zone': ctrl.config.dangerZone}">
+    <header class="column el">
+      <h1>{{ 'confirm_remove_header' | t:ctrl.config }}</h1>
+    </header>
+    <form class="column el x100">
+      <div class="notification roadblock">
+        <p>{{ 'confirm_remove' | t:ctrl.config }}</p>
+      </div>
+      <footer class="group form-actions">
+        <ul class="column right">
+          <li><a ng-click="ctrl.cancel()" class="button no-style">{{ 'Cancel' | t }}</a></li>
+          <li><button ng-click="ctrl.confirm()">{{ 'Yes_Remove_It' | t }}</button></li>
+        </ul>
+      </footer>
+    </form>
+  </div>
+</modal>
