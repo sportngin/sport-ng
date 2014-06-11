@@ -7,8 +7,8 @@ angular.module('sport.ng')
     var defaults = {
       attachment: 'middle center',
       targetAttachment: 'middle center',
-      offset: 0,
-      targetOffset: 0,
+      offset: '0 0',
+      targetOffset: '0 0',
       dismissable: true
     }
 
@@ -16,7 +16,8 @@ angular.module('sport.ng')
       restrict: 'E',
       scope: {
         'close': '&',
-        'showing': '='
+        'showing': '=',
+        'classes': '='
       },
       transclude: true,
       templateUrl: '/bower_components/sport-ng/modal/modal.html',
@@ -33,11 +34,14 @@ angular.module('sport.ng')
         var controller = angular.noop
 
         // setup tether options
-        var tetherOpts = _.pick(options, ['attachment', 'targetAttachment'])
+        var tetherOpts = _.pick(options, ['attachment', 'targetAttachment', 'offset'])
+
+        var popover = element.find('.popover')
+        popover.addClass(scope.classes)
 
         // position the element
         var tether = new Tether(_.extend({
-          element: element.find('.popover'),
+          element: popover,
           target: element.find('.overlay')
         }, tetherOpts))
 
