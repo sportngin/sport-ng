@@ -8,7 +8,7 @@
         <p>{{ 'confirm_delete' | t:ctrl.config }}</p>
       </div>
       <div class="field" ng-if="ctrl.config.dangerZone">
-        <label>{{ 'type_to_delete' | t:ctrl.config }}</label>
+        <label ng-bind-html="{{ 'type_to_delete' | t:ctrl.config }}"></label>
         <input ng-model="ctrl.typeName" type="text" class="x100"/>
       </div>
       <footer class="group form-actions">
