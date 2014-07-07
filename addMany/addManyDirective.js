@@ -23,7 +23,7 @@ angular.module('sport.ng')
   .directive('addMany', function addManyDirective() {
 
     return {
-      restrict: 'E',
+      restrict: 'AE',
       scope: {
         'cancel': '&',
         'save': '&',

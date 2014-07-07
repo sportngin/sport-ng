@@ -13,7 +13,7 @@ angular.module('sport.ng')
     }
 
     return {
-      restrict: 'E',
+      restrict: 'AE',
       scope: {
         'close': '&',
         'showing': '=',

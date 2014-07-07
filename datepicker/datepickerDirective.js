@@ -111,7 +111,7 @@ function calendarDays(year, month, date) {
 angular.module('sport.ng')
   .directive('datepicker', function(DatepickerService, _, $timeout) {
     return {
-      restrict: 'E',
+      restrict: 'AE',
       scope: {
         date: '='
       },
@@ -181,7 +181,7 @@ angular.module('sport.ng')
   .directive('datepickerCalendar', function(DatepickerService) {
 
     return {
-      restrict: 'E',
+      restrict: 'AE',
       scope: {},
       templateUrl: '/bower_components/sport-ng/datepicker/datepickerCalendar.html',
       link: function(scope, element, attrs) {
