@@ -1,21 +1,20 @@
 <modal showing="ctrl.config.showing" close="ctrl.cancel()" classes="'px480'" >
   <div class="group padded" ng-class="{'danger-zone': ctrl.config.dangerZone}">
     <header class="column el">
-      <h1 ng-bind-html="{{ 'confirm_delete_header' | t:ctrl.config }}"></h1>
+      <h1>{{ 'confirm_delete_header' | t:ctrl.config }}</h1>
+      <h1 i18ng="'confirm_delete_header'" i18ng-opts="ctrl.config" i18ng-html></h1>
     </header>
     <form class="column el x100">
       <div class="notification roadblock">
-        <p ng-bind-html="{{ 'confirm_delete' | t:ctrl.config }}"></p>
+        <p i18ng="'confirm_delete" i18ng-opts="ctrl.config" i18ng-html>
       </div>
       <div class="field" ng-if="ctrl.config.dangerZone">
-        <label ng-bind-html="{{ 'type_to_delete' | t:ctrl.config }}"></label>
+        <label i18ng="'type_to_delete'" i18ng-opts="ctrl.config" i18ng-html></label>
         <input ng-model="ctrl.typeName" type="text" class="x100"/>
       </div>
-      <footer class="group form-actions">
-        <ul class="column right">
-          <li><a ng-click="ctrl.cancel()" class="button no-style">{{ 'Cancel' | t }}</a></li>
-          <li><button ng-click="ctrl.confirm()" ng-disabled="ctrl.config.dangerZone && ctrl.config.name != ctrl.typeName">{{ 'Yes_Delete_It' | t }}</button></li>
-        </ul>
+      <footer class="group form-actions right">
+        <button i18ng="'Cancel'" ng-click="ctrl.cancel()" class="no-style"></button>
+        <button i18ng="'Yes_Delete_It'" ng-click="ctrl.confirm()" ng-disabled="ctrl.config.dangerZone && ctrl.config.name != ctrl.typeName"></button>
       </footer>
     </form>
   </div>
