@@ -9,7 +9,10 @@ angular.module('sport.ng')
       targetAttachment: 'middle center',
       offset: '0 0',
       targetOffset: '0 0',
-      dismissable: true
+      dismissable: true,
+      optimizations: {
+        gpu: false // allows us to use css animations
+      }
     }
 
     return {
@@ -34,7 +37,7 @@ angular.module('sport.ng')
         var controller = angular.noop
 
         // setup tether options
-        var tetherOpts = _.pick(options, ['attachment', 'targetAttachment', 'offset'])
+        var tetherOpts = _.pick(options, ['attachment', 'targetAttachment', 'offset', 'optimizations'])
 
         var popover = element.find('.popover')
         popover.addClass(scope.classes)
