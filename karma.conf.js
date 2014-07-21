@@ -7,10 +7,13 @@ module.exports = function(config) {
     // base path, that will be used to resolve files and exclude
     basePath: '',
 
+    preprocessors: {
+      // This doesn't need to be strict because we are strict in files:
+      '**/*.html': ['ng-html2js']
+    },
 
     // frameworks to use
     frameworks: ['jasmine'],
-
 
     // list of files / patterns to load in the browser
     files: [
@@ -26,6 +29,9 @@ module.exports = function(config) {
       'bower_components/underscore/underscore.js',
       'bower_components/restangular/src/restangular.js',
 
+      // Add templates (using ng-html2js)
+     '!(bower_components)/**/*.html',
+
       // App code
       'sport-ng.js',
       './!(node_modules|*bower_components)/**/!(*-test).js',
@@ -39,6 +45,13 @@ module.exports = function(config) {
     exclude: [
       //'node_modules/**'
     ],
+
+
+    // Load templateUrls
+    ngHtml2JsPreprocessor: {
+      prependPrefix: '/bower_components/sport-ng/',
+      moduleName: 'sport.ng.templates'
+    },
 
 
     // test results reporter to use

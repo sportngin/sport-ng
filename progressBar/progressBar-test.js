@@ -1,5 +1,5 @@
 
-describe('ProgressBar', function() {
+ddescribe('ProgressBar', function() {
 
   var directive
   var MockDirective
