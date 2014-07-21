@@ -13,7 +13,7 @@ Usage:
 
 'use strict'
 
-angular.module('sport-ng')
+angular.module('sport.ng')
   .directive('deferredScript', function deferredScriptDirective($document){
     function link (scope, elem, attrs) {
       var n = $document[0].getElementsByTagName('script')[0]
