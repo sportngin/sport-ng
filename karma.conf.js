@@ -20,6 +20,7 @@ module.exports = function(config) {
       'bower_components/angular-resource/angular-resource.js',
       'bower_components/angular-route/angular-route.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
+      'bower_components/i18next/i18next.js',
       'bower_components/i18ng/i18ng.js',
       'bower_components/tether/tether.js',
       'bower_components/underscore/underscore.js',
