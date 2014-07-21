@@ -1,0 +1,5 @@
+<section class="notification">
+  <header ng-if="title" ng-bind-html="title"></header>
+  <div progress-bar percent="{{percent}}" total="{{total}}" completed="{{completed}}" remoteJob="{{remoteJob}}"></div>
+  <p ng-bind-html="timeRemaining()"></p>
+</section>
