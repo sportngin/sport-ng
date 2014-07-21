@@ -1,5 +1,5 @@
 var fixture = {
-  results: [{id:1, name: 'foo'}, {id:2, name: 'bar'}],
+  result: [{id:1, name: 'foo'}, {id:2, name: 'bar'}],
   metadata: {pagination: {limit: 50, page: 1, total_pages: 2}}
 }
 
