@@ -30,7 +30,7 @@ module.exports = function(config) {
       'bower_components/restangular/src/restangular.js',
 
       // Add templates (using ng-html2js)
-     '!(bower_components)/**/*.html',
+     './!(node_modules|*bower_components)/**/*.html',
 
       // App code
       'sport-ng.js',
