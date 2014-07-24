@@ -18,7 +18,7 @@ ddescribe('ProgressBar', function() {
     expect(directive.$isolateScope.progress()).toBe(40)
   })
 
-  describe('Pusher Integration', function() {
+  describe('pusher integration', function() {
 
     var channel
     var channelName = 'private-foo'
@@ -34,24 +34,25 @@ ddescribe('ProgressBar', function() {
 
     it('accepts a pusher channel if pased in options', function() {
       directive = new MockDirective('<div progress-bar remote-job="jobInParentScope"></div>', {jobInParentScope: channel})
-      expect(directive.$scope.remoteJob).toBe(channel)
+      console.log("###", directive.$isolateScope)
+      expect(directive.$isolateScope.remoteJob).toBe(channel)
     })
 
     it('connect the the correct pusher channel if pased a channel name in options', function() {
       directive = new MockDirective('<div progress-bar remote-job="\''+channelName+'\'"></div>')
-      expect(directive.$scope.remoteJob).toBe(channel)
+      expect(directive.$isolateScope.remoteJob).toBe(channel)
     })
 
     it('should destroy $scope when animation completes if `closeWhenComplete` is set', function() {
       directive = new MockDirective('<div progress-bar close-when-complete remote-job="jobInParentScope"></div>', {jobInParentScope: channel})
-      spyOn(directive.$scope, '$destroy')
+      spyOn(directive.$isolateScope, '$destroy')
 
       jasmine.clock().install()
 
       channel.emit('completed', {})
-      expect(directive.$scope.$destroy).not.toHaveBeenCalled()
+      expect(directive.$isolateScope.$destroy).not.toHaveBeenCalled()
       jasmine.clock().tick(501) // css animation takes 500ms
-      expect(directive.$scope.$destroy).toHaveBeenCalled()
+      expect(directive.$isolateScope.$destroy).toHaveBeenCalled()
 
       jasmine.clock().uninstall()
     })

@@ -75,15 +75,21 @@ angular.module('sport.ng')
           if (attrs.closeWhenComplete) _.delay(function(){ scope.$destroy() }, 500) 
         }
 
+        scope.$watch('remoteJob', function(newVal, oldVal){
+          console.log("remoteJob changed", newVal, oldVal)
+        })
+
         // setup pusher connection if `remoteJob` key provided -- find/create channel from string key
         var channel = scope.remoteJob
-        if (typeof channel === 'string') channel = Pusher.channel(channel) || Pusher.subscribe(channel)
-
+        if (typeof channel === 'string') channel = scope.remoteJob = Pusher.channel(channel) || Pusher.subscribe(channel)
+          console.log("directive sets scope: ", scope.remoteJob)
         if (channel) {
           channel.bind('progress', scope._progress)
           channel.bind('error', scope._errored)
           channel.bind('completed', scope._completed)
         }
+
+
       }
     }
 
