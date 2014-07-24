@@ -2,22 +2,26 @@
 
 angular.module('sport.ng')
 
-  .directive('modal', function modalDirective($document, $controller, $compile, _) {
+  .directive('modal', function modalDirective($document, $controller, $compile, $timeout, _) {
 
     var defaults = {
       attachment: 'middle center',
       targetAttachment: 'middle center',
-      offset: '0 0',
+      offset: '150px 0',
       targetOffset: '0 0',
-      dismissable: true
+      dismissable: true,
+      optimizations: {
+        gpu: false // allows us to use css animations
+      }
     }
 
     return {
-      restrict: 'E',
+      restrict: 'AE',
       scope: {
         'close': '&',
         'showing': '=',
-        'classes': '='
+        'classes': '=',
+        'dangerZone': '='
       },
       transclude: true,
       templateUrl: '/bower_components/sport-ng/modal/modal.html',
@@ -26,46 +30,34 @@ angular.module('sport.ng')
         // copy the options we care about
         var options = _.extend({}, defaults, _.omit(attrs, ['$$element', '$attr']))
 
-        // show a close button when a close function is provided
-        scope.closeButton = !!attrs.close
-
         // create a controller definition to use for the content
         var controllerAs = options.controllerAs || 'ctrl'
         var controller = angular.noop
 
         // setup tether options
-        var tetherOpts = _.pick(options, ['attachment', 'targetAttachment', 'offset'])
+        var tetherOpts = _.pick(options, ['attachment', 'targetAttachment', 'offset', 'optimizations'])
 
         var popover = element.find('.popover')
         popover.addClass(scope.classes)
 
-        // position the element
+        if (attrs.dangerZone) popover.addClass('danger-zone')
+
+        if (attrs.close) {
+          var closeButton = $('<button ng-click="close()" class="right media no-style"><span class="icon sm multiply"></span></button>')
+          $compile(closeButton)(scope)
+          popover.prepend(closeButton)
+        }
+
+        // position AND YANK the element
         var tether = new Tether(_.extend({
           element: popover,
           target: element.find('.overlay')
         }, tetherOpts))
 
-        var content, currentScope
-        var container = element.find('[ng-transclude]')
-        var html = container.html()
-        container.empty()
-
         // create a new modal element and attach it to the dom
         function show() {
-          if (content) return
-
-          // create new element, append it to the dom
-          content = angular.element(html)
-          container.append(content)
-
-          // setup new scope and controller
-          var currentScope = scope.$new()
-          var ctrl = $controller(controller, { $scope: currentScope })
-          currentScope[controllerAs] = ctrl
-
-          // compile
-          $compile(content)(currentScope)
-          tether.position()
+          // Give angular time to show / hide things
+          $timeout(tether.position.bind(tether))
         }
 
         function hide() {
