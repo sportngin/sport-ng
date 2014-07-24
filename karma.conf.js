@@ -29,15 +29,18 @@ module.exports = function(config) {
       'bower_components/underscore/underscore.js',
       'bower_components/restangular/src/restangular.js',
 
+      'lib/pusher.js',
+      'lib/pusher-test-stub.js',
+
       // Add templates (using ng-html2js)
-     './!(node_modules|*bower_components)/**/*.html',
+     './!(lib|node_modules|*bower_components)/**/*.html',
 
       // App code
       'sport-ng.js',
-      './!(node_modules|*bower_components)/**/!(*-test).js',
+      './!(lib|node_modules|*bower_components)/**/!(*-test).js',
 
       // Test files
-      './!(node_modules|*bower_components)/**/*-test.js'
+      './!(lib|node_modules|*bower_components)/**/*-test.js'
     ],
 
 

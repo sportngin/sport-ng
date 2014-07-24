@@ -55,16 +55,34 @@ angular.module('sport.ng')
           return percent
         }
 
-        // setup pusher connection if `remoteJob` key provided
+        scope._progress = function(scope, pusherData) {
+          var minutes = Math.floor(pusherData.remaining_seconds / 60)
+          var seconds = Math.round(pusherData.remaining_seconds % 60)
+          var remainingText = timeRemaining(minutes, seconds)
+          scope.total = pusherData.total
+          scope.completed = pusherData.completed
+          scope.timeRemaining = remainingText
+        }
+
+        scope._errored = function() {
+          scope.errorMessage = scope._errorMessage || "An unexpected error occured."
+        }
+
+        scope._completed = function() {
+          scope.total = scope.total || 1
+          scope.completed = scope.total
+          // kill the directive/element after the job is done and the CSS animation is done
+          if (attrs.closeWhenComplete) _.delay(function(){ scope.$destroy() }, 500) 
+        }
+
+        // setup pusher connection if `remoteJob` key provided -- find/create channel from string key
         var channel = scope.remoteJob
+        if (typeof channel === 'string') channel = Pusher.channel(channel) || Pusher.subscribe(channel)
+
         if (channel) {
-          // find/create channel from string key
-          if (typeof channel === 'string') channel = Pusher.channel(channel) || Pusher.subscribe(channel)
-          // close when complete if flagged to do so
-          var completedMethod = attrs.closeWhenComplete ? destroyWhenCompleted : completed
-          channel.bind('progress', progress.bind(null, scope))
-          channel.bind('error', errored.bind(null, scope))
-          channel.bind('completed', completedMethod.bind(null, scope))
+          channel.bind('progress', scope._progress)
+          channel.bind('error', scope._errored)
+          channel.bind('completed', scope._completed)
         }
       }
     }
