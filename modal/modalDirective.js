@@ -30,10 +30,6 @@ angular.module('sport.ng')
         // copy the options we care about
         var options = _.extend({}, defaults, _.omit(attrs, ['$$element', '$attr']))
 
-        // create a controller definition to use for the content
-        var controllerAs = options.controllerAs || 'ctrl'
-        var controller = angular.noop
-
         // setup tether options
         var tetherOpts = _.pick(options, ['attachment', 'targetAttachment', 'offset', 'optimizations'])
 
@@ -49,36 +45,28 @@ angular.module('sport.ng')
         }
 
         // position AND YANK the element
+        // (existing angular bindings will stay in place after yanking the element)
         var tether = new Tether(_.extend({
           element: popover,
           target: element.find('.overlay')
         }, tetherOpts))
 
         // create a new modal element and attach it to the dom
-        function show() {
+        function position() {
           // Give angular time to show / hide things
           $timeout(tether.position.bind(tether))
-        }
-
-        function hide() {
-          if (!content) return
-          container.empty()
-          content = null
-          currentScope = null
         }
 
         // watch the `showing` property and hide/show the modal accordingly
         scope.$watch('showing', function(newValue, oldValue) {
           if (newValue === oldValue) return
           if (newValue === true)
-            show()
-          else
-            hide()
+            position()
         })
 
         // make sure we clean up after ourselves
         scope.$on('$destroy', function() {
-          hide()
+          popover.remove()
           options = null
         })
       }
