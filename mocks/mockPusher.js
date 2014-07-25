@@ -48,6 +48,35 @@
   }
 
   /**
+   * Creates a new Pusher object on the root scope.
+   *
+   * @param {String} channelName The name of the channel the event should be triggered on.
+   */
+  Pusher.start = function() {
+    return exports.Pusher = new Pusher()
+  }
+
+  /**
+   * Creates a new Pusher instance and a channel with the given channelName.
+   *
+   * @param {String} channelName The name of the channel the event should be triggered on.
+   */
+  Pusher.channel = function(channelName) {
+    var instance = Pusher.start()
+    return instance.channel(channelName) || instance.subscribe(channelName)
+  }
+
+  /**
+   * Resets the internal pusher instances array.
+   *
+   * @param {String} channelName The name of the channel the event should be triggered on.
+   */
+  Pusher.reset = function() {
+    Pusher.instances.splice(0)
+    exports.Pusher = null
+  }
+
+  /**
    * Subscribe to a channel.
    * @return {RealPusher.test.framework.Channel} A stub channel object.
    */

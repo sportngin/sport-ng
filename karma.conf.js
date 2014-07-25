@@ -28,9 +28,7 @@ module.exports = function(config) {
       'bower_components/tether/tether.js',
       'bower_components/underscore/underscore.js',
       'bower_components/restangular/src/restangular.js',
-
       'lib/pusher.js',
-      'lib/pusher-test-stub.js',
 
       // Add templates (using ng-html2js)
      './!(lib|node_modules|*bower_components)/**/*.html',

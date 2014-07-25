@@ -1,5 +1,5 @@
 
-ddescribe('ProgressBar', function() {
+describe('ProgressBar', function() {
 
   var directive
   var MockDirective
@@ -10,12 +10,12 @@ ddescribe('ProgressBar', function() {
 
   it('should use `percent` if passed in', function() {
     directive = new MockDirective('<div progress-bar percent="73" total="10" completed="4"></div>')
-    expect(directive.$isolateScope.progress()).toBe(73)
+    expect(directive.$scope.progress()).toBe(73)
   })
 
   it('should calculate `percent` if not passed in', function() {
     directive = new MockDirective('<div progress-bar total="10" completed="4"></div>')
-    expect(directive.$isolateScope.progress()).toBe(40)
+    expect(directive.$scope.progress()).toBe(40)
   })
 
   describe('pusher integration', function() {
@@ -24,37 +24,21 @@ ddescribe('ProgressBar', function() {
     var channelName = 'private-foo'
 
     beforeEach(function() {
-      Pusher = new MockPusher()
-      channel = Pusher.subscribe(channelName)
+      channel = MockPusher.channel(channelName)
     })
 
     afterEach(function() {
-      MockPusher.instances.splice(0) // clear any old instances
+      MockPusher.reset()
     })
 
-    it('accepts a pusher channel if pased in options', function() {
+    it('accepts a pusher channel if passed as `remoteJob`', function() {
       directive = new MockDirective('<div progress-bar remote-job="jobInParentScope"></div>', {jobInParentScope: channel})
-      console.log("###", directive.$isolateScope)
-      expect(directive.$isolateScope.remoteJob).toBe(channel)
+      expect(directive.$scope.channel).toBe(channel)
     })
 
-    it('connect the the correct pusher channel if pased a channel name in options', function() {
-      directive = new MockDirective('<div progress-bar remote-job="\''+channelName+'\'"></div>')
-      expect(directive.$isolateScope.remoteJob).toBe(channel)
-    })
-
-    it('should destroy $scope when animation completes if `closeWhenComplete` is set', function() {
-      directive = new MockDirective('<div progress-bar close-when-complete remote-job="jobInParentScope"></div>', {jobInParentScope: channel})
-      spyOn(directive.$isolateScope, '$destroy')
-
-      jasmine.clock().install()
-
-      channel.emit('completed', {})
-      expect(directive.$isolateScope.$destroy).not.toHaveBeenCalled()
-      jasmine.clock().tick(501) // css animation takes 500ms
-      expect(directive.$isolateScope.$destroy).toHaveBeenCalled()
-
-      jasmine.clock().uninstall()
+    it('should connect to the correct pusher channel if passed a `remoteJobName` (channel name)', function() {
+      directive = new MockDirective('<div progress-bar remote-job-name="'+channelName+'"></div>')
+      expect(directive.$scope.channel).toBe(channel)
     })
 
   })

@@ -1,6 +1,8 @@
 angular.module('sport.ng')
   .directive('progressBar', function progressBar(i18ng) {
 
+    var timeRemainingPlaceholder = i18ng.t("TIME_REMAINING.remaining_placeholder")
+
     function timeRemaining(min, sec) {
       var parts = [
         i18ng.t("TIME_REMAINING.second", { count: sec }),
@@ -39,12 +41,14 @@ angular.module('sport.ng')
         percent: "@",
         total: "@",
         completed: "@",
-        remoteJob: "@",
+        remoteJob: "=",
+        remoteJobName: "@",
         _remoteError: '@remoteError' // will replace `scope.remoteError` if error event occurs
       },
       restrict: 'A',
       templateUrl: '/bower_components/sport-ng/progressBar/progressBar.html',
       link: function(scope, element, attrs) {
+
         scope.progress = function() {
           var percent = parseFloat(scope.percent)
           if (isNaN(percent)) {
@@ -55,7 +59,7 @@ angular.module('sport.ng')
           return percent
         }
 
-        scope._progress = function(scope, pusherData) {
+        scope._pusherProgress = function(scope, pusherData) {
           var minutes = Math.floor(pusherData.remaining_seconds / 60)
           var seconds = Math.round(pusherData.remaining_seconds % 60)
           var remainingText = timeRemaining(minutes, seconds)
@@ -64,31 +68,28 @@ angular.module('sport.ng')
           scope.timeRemaining = remainingText
         }
 
-        scope._errored = function() {
+        scope._pusherErrored = function() {
           scope.errorMessage = scope._errorMessage || "An unexpected error occured."
         }
 
         scope._completed = function() {
           scope.total = scope.total || 1
           scope.completed = scope.total
-          // kill the directive/element after the job is done and the CSS animation is done
-          if (attrs.closeWhenComplete) _.delay(function(){ scope.$destroy() }, 500) 
         }
 
-        scope.$watch('remoteJob', function(newVal, oldVal){
-          console.log("remoteJob changed", newVal, oldVal)
-        })
-
-        // setup pusher connection if `remoteJob` key provided -- find/create channel from string key
+        // setup pusher connection if `remoteJob` key provided
+        // or find/create channel from `remoteJobName` string key
         var channel = scope.remoteJob
-        if (typeof channel === 'string') channel = scope.remoteJob = Pusher.channel(channel) || Pusher.subscribe(channel)
-          console.log("directive sets scope: ", scope.remoteJob)
+        var channelName = scope.remoteJobName
+        if (!channel && channelName) channel = Pusher.channel(channelName) || Pusher.subscribe(channelName)
+        
         if (channel) {
-          channel.bind('progress', scope._progress)
-          channel.bind('error', scope._errored)
+          scope.timeRemaining = timeRemainingPlaceholder
+          scope.channel = channel
+          channel.bind('progress', scope._pusherProgress)
+          channel.bind('error', scope._pusherErrored)
           channel.bind('completed', scope._completed)
         }
-
 
       }
     }

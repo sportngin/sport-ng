@@ -11,10 +11,10 @@ angular.module('sport.ng')
 
     MockDirective.prototype.compile = function(tmpl) {
       if (!tmpl && !this.defaultTemplate) throw "Cannot compile mock directive without a template."
+      this.$parentScope.mockParentScope = true
       this.$element = $compile(tmpl || this.defaultTemplate)(this.$parentScope)
-      this.$scope = this.$element.scope()
       this.$parentScope.$digest()
-      this.$isolateScope = this.$element.isolateScope()
+      this.$scope = this.$element.isolateScope() || this.$element.scope()
     }
 
     return MockDirective
