@@ -77,7 +77,7 @@ var stringToTime = function(val, allowTBD) {
 
       case 1:
       case 2:
-        hour = parseInt(v)
+        hour = parseInt(withoutColon)
         minute = 0
         break
 

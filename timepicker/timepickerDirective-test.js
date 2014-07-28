@@ -134,4 +134,40 @@ describe('TimepickerDirective', function () {
 
   })
 
+    describe('TimepickerDirective#stringToTime without colon', function(){
+    beforeEach(function(){
+      $parentScope.timeval = '23:00'
+      compileDirective()
+    })
+
+    it('should correctly parse a time without a colon', function(){
+      $scope.displayTime = '1000 pm'
+      $scope.updateTime()
+      expect($scope.displayTime).toEqual('10:00 pm')
+      expect($scope.time).toEqual('22:00')
+    })
+
+    it('should correctly parse a 3 digit time without a colon', function(){
+      $scope.displayTime = '900 am'
+      $scope.updateTime()
+      expect($scope.displayTime).toEqual('9:00 am')
+      expect($scope.time).toEqual('09:00')
+    })
+
+    it('should correctly parse a 2 digit time without a colon', function(){
+      $scope.displayTime = '10 am'
+      $scope.updateTime()
+      expect($scope.displayTime).toEqual('10:00 am')
+      expect($scope.time).toEqual('10:00')
+    })
+
+    it('should correctly parse a 1 digit time without a colon', function(){
+      $scope.displayTime = '2 am'
+      $scope.updateTime()
+      expect($scope.displayTime).toEqual('2:00 am')
+      expect($scope.time).toEqual('02:00')
+    })
+
+  })
+
 })
