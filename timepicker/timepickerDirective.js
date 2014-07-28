@@ -119,7 +119,7 @@ function twoDigit(x){
 }
 
 var defaults = {
-  allowTBD: false, //still useful function?
+  allowtbd: false, //still useful function?
   hour12: true,
   displayFormat: displayFormat,
   stringToTime: stringToTime
@@ -132,8 +132,8 @@ angular.module('sport.ng')
       restrict: 'A',
       scope: { //should defaults be put here?
         time: '=',
-        allowtbd: '@', //never used in either sport admin or venue admin. Shoud I keep it?
-        hour12: '@',
+        allowtbd: '=', //never used in either sport admin or venue admin. Shoud I keep it?
+        hour12: '=',
         displayformat: '&',
         stringtotime: '&' //never used in sport admin or venue admin. Should I keep it?
       },
@@ -147,25 +147,20 @@ angular.module('sport.ng')
 
         var opts = {}
 
-        console.log(scope.hour12)
-
         scope.element = element
 
-        //is there an easier way to do this with _.defaults or _.extend or such? I don't think so....
+        //is there an easier way to do the following two lines with _.defaults or _.extend or such? I don't think so....
         opts.displayFormat = attrs['displayformat'] ? scope.displayformat : defaults.displayFormat
         opts.stringToTime = attrs['stringtotime'] ? scope.stringtotime : defaults.stringToTime
-        opts.allowTBD = scope.allowtbd || defaults.allowTBD
-        opts.hour12 = scope.hour12 || defaults.hour12
+        var notFunctions = _.pick(scope, ['allowtbd', 'hour12'])
+        _.extend(opts, _.defaults(notFunctions, { allowtbd: false, hour12: true }))
 
-
-        if (scope.time) {
-          scope.displayTime = opts.displayFormat(scope.time, opts.hour12, opts.allowTBD)
-        }
+        scope.displayTime = opts.displayFormat(scope.time, opts.hour12, opts.allowtbd)
 
         scope.updateTime = function(){
-          var newTime = opts.stringToTime(scope.displayTime, opts.allowTBD)
+          var newTime = opts.stringToTime(scope.displayTime, opts.allowtbd)
           scope.time = (newTime === null) ? scope.time : newTime
-          scope.displayTime = opts.displayFormat(scope.time, opts.hour12, opts.allowTBD)
+          scope.displayTime = opts.displayFormat(scope.time, opts.hour12, opts.allowtbd)
         }
 
       }

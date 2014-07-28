@@ -37,12 +37,6 @@ describe('TimepickerDirective', function () {
       expect($scope.displayTime).toEqual('12:00 pm')
     })
 
-    // it('shoud display 24:00 as 12:00 pm', function() {
-    //   $parentScope.timeval = '24:00'
-    //   compileDirective()
-    //   expect($scope.displayTime).toEqual('12:00 am')
-    // })
-
     it('shoud display evening times as a pm string with a single character hour', function() {
       $parentScope.timeval = '13:00'
       compileDirective()
@@ -59,20 +53,39 @@ describe('TimepickerDirective', function () {
 
   describe('TimepickerDirective#displayFormat 24hour format', function () {
 
-    it('shoud display 00:00 as 12:00 am', function() {
+    it('shoud display a time as it is stored', function() {
       $parentScope.timeval = '22:00'
-      $parentScope.stuff = false
-      compileDirective('<div timepicker time="timeval" hour12="{{stuff}}"></div>')
+      $parentScope.format12 = false
+      compileDirective('<div timepicker time="timeval" hour12="format12"></div>')
 
-      //expect($scope.displayTime).toEqual('22:00')
+      expect($scope.displayTime).toEqual('22:00')
+    })
+
+  })
+
+  describe('TimepickerDirective#displayFormat TBD allowed', function () {
+
+    it('shoud display \'\' as "TBD" when TBD is allowed', function() {
+      $parentScope.timeval = ''
+      $parentScope.tbd = true
+      compileDirective('<div timepicker time="timeval" allowtbd="tbd"></div>')
+
+      expect($scope.displayTime).toEqual('TBD')
     })
 
   })
 
   describe('TimepickerDirective#stringToTime', function(){
     beforeEach(function(){
-      $parentScope.timeval = '24:00'
+      $parentScope.timeval = '23:00'
       compileDirective()
+    })
+
+    it('should not change the time if an empty string is entered', function(){
+      $scope.displayTime = ''
+      elm.find('input').blur()
+      expect($scope.displayTime).toEqual('11:00 pm')
+      expect($scope.time).toEqual('23:00')
     })
 
     it('should ignore non-digit characters', function(){
@@ -96,20 +109,30 @@ describe('TimepickerDirective', function () {
       expect($scope.time).toEqual('02:00')
     })
 
-    it('should roll extra hours into moar hours', function(){
-      $scope.displayTime = '26:00 am'
-      elm.find('input').blur()
-      expect($scope.displayTime).toEqual('2:00 am')
-      expect($scope.time).toEqual('02:00')
+  })
+
+  describe('TimepickerDirective#stringToTime TBD allowed', function(){
+    beforeEach(function(){
+      $parentScope.timeval = ''
+      $parentScope.tbd = true
+      compileDirective('<div timepicker time="timeval" allowtbd="tbd"></div>')
     })
 
-    it('should ignore meridiem if time otherwise fits 24-hour format', function(){
-      $scope.displayTime = '14:00 am'
+    it('shoud transform "tbd" to "TBD" when TBD is allowed', function() {
+      $parentScope.displayTime = 'tbd'
       elm.find('input').blur()
-      expect($scope.displayTime).toEqual('2:00 pm')
-      expect($scope.time).toEqual('14:00')
+      $parentScope.tbd = true
+
+      expect($scope.displayTime).toEqual('TBD')
     })
 
+    it('shoud transform an empty string to "TBD" when TBD is allowed', function() {
+      $parentScope.displayTime = ''
+      elm.find('input').blur()
+      $parentScope.tbd = true
+
+      expect($scope.displayTime).toEqual('TBD')
+    })
 
   })
 
