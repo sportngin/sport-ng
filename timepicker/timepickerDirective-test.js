@@ -83,28 +83,28 @@ describe('TimepickerDirective', function () {
 
     it('should not change the time if an empty string is entered', function(){
       $scope.displayTime = ''
-      elm.find('input').blur()
+      $scope.updateTime()
       expect($scope.displayTime).toEqual('11:00 pm')
       expect($scope.time).toEqual('23:00')
     })
 
     it('should ignore non-digit characters', function(){
       $scope.displayTime = '3:asd00 am'
-      elm.find('input').blur()
+      $scope.updateTime()
       expect($scope.displayTime).toEqual('3:00 am')
       expect($scope.time).toEqual('03:00')
     })
 
     it('should roll extra minutes into hour', function(){
       $scope.displayTime = '1:62 am'
-      elm.find('input').blur()
+      $scope.updateTime()
       expect($scope.displayTime).toEqual('2:02 am')
       expect($scope.time).toEqual('02:02')
     })
 
     it('should roll extra hours into moar hours', function(){
       $scope.displayTime = '26:00 am'
-      elm.find('input').blur()
+      $scope.updateTime()
       expect($scope.displayTime).toEqual('2:00 am')
       expect($scope.time).toEqual('02:00')
     })
@@ -119,17 +119,15 @@ describe('TimepickerDirective', function () {
     })
 
     it('shoud transform "tbd" to "TBD" when TBD is allowed', function() {
-      $parentScope.displayTime = 'tbd'
-      elm.find('input').blur()
-      $parentScope.tbd = true
+      $scope.displayTime = 'tbd'
+      $scope.updateTime()
 
       expect($scope.displayTime).toEqual('TBD')
     })
 
     it('shoud transform an empty string to "TBD" when TBD is allowed', function() {
-      $parentScope.displayTime = ''
-      elm.find('input').blur()
-      $parentScope.tbd = true
+      $scope.displayTime = ''
+      $scope.updateTime()
 
       expect($scope.displayTime).toEqual('TBD')
     })
