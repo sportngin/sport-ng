@@ -119,7 +119,7 @@ function twoDigit(x){
 }
 
 var defaults = {
-  allowtbd: false, //still useful function?
+  allowtbd: false,
   hour12: true,
   displayFormat: displayFormat,
   stringToTime: stringToTime
@@ -130,9 +130,9 @@ angular.module('sport.ng')
   .directive('timepicker', function(_) {
     return {
       restrict: 'A',
-      scope: { //should defaults be put here?
+      scope: {
         time: '=',
-        allowtbd: '=', //never used in either sport admin or venue admin. Shoud I keep it?
+        allowtbd: '=',
         hour12: '=',
         displayformat: '&',
         stringtotime: '&' //never used in sport admin or venue admin. Should I keep it?
