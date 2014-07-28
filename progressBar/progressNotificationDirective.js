@@ -12,6 +12,7 @@ angular.module('sport.ng')
         remoteJob: "=",
         remoteJobName: "@"
       },
+      replace: true,
       restrict: 'A',
       templateUrl: '/bower_components/sport-ng/progressBar/progressNotification.html',
       link: function(scope, element, attrs) {
