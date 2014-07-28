@@ -72,12 +72,12 @@ var stringToTime = function(val, allowTBD) {
   
   if (time.length !== 2) {
     var withoutColon = time[0]
-    //the switch statement is from the original code. Should I switch it 
+    //the switch statement is from the original code. Should I rewrite it?
     switch (withoutColon.length) {
 
       case 1:
       case 2:
-        hour = parseInt(v, 10)
+        hour = parseInt(v)
         minute = 0
         break
 
@@ -146,6 +146,10 @@ angular.module('sport.ng')
         if (attrs['class']) element.find('input').addClass(attrs['class'].replace(/ng-[^\s]+/g, ''))
 
         var opts = {}
+
+        console.log(scope.hour12)
+
+        scope.element = element
 
         //is there an easier way to do this with _.defaults or _.extend or such? I don't think so....
         opts.displayFormat = attrs['displayformat'] ? scope.displayformat : defaults.displayFormat
