@@ -45,7 +45,6 @@ angular.module('sport.ng')
         remoteJobName: "@",
         _remoteError: '@remoteError' // will replace `scope.remoteError` if error event occurs
       },
-      replace: true,
       restrict: 'A',
       templateUrl: '/bower_components/sport-ng/progressBar/progressBar.html',
       link: function(scope, element, attrs) {
