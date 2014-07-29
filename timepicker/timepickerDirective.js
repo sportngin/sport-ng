@@ -49,7 +49,7 @@ var displayFormat = function(time, hour12, allowTBD) {
 function displayFormat12(time) {
   time = time.split(':')
   var hour = parseInt(time[0])
-  var period = hour >= 12 ? 'pm' : 'am'
+  var period = Math.floor(hour / 12) % 2 == 0 ? 'am' : 'pm'
   hour = hour % 12
   if (hour == 0) hour = 12
   return hour + ':' + time[1] + ' ' + period

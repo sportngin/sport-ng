@@ -37,6 +37,12 @@ describe('TimepickerDirective', function () {
       expect($scope.displayTime).toEqual('12:00 pm')
     })
 
+    it('shoud display 24:00 as 12:00 am', function() {
+      $parentScope.timeval = '24:00'
+      compileDirective()
+      expect($scope.displayTime).toEqual('12:00 am')
+    })
+
     it('shoud display evening times as a pm string with a single character hour', function() {
       $parentScope.timeval = '13:00'
       compileDirective()
