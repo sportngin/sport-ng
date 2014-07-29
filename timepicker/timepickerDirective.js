@@ -59,7 +59,7 @@ var stringToTime = function(val, allowTBD) {
   var whitespaceOnly = !val.match(/\S/) //still a usefull function?
   if (allowTBD && (whitespaceOnly || val.toUpperCase() == 'TBD')) {
     return ''
-  } else if (whitespaceOnly) { //evaluate utility
+  } else if (whitespaceOnly) {
     return null
   }
 
@@ -96,8 +96,6 @@ var stringToTime = function(val, allowTBD) {
   else {
     hour = parseInt(time[0])
     minute = parseInt(time[1])
-    //should I add the line below back in? I think the other way would be best
-    //if (val[1].length === 1) minute *= 10 // one digit minutes (12:3) >> (12:30)
   }
 
   hour += Math.floor(minute / 60)
