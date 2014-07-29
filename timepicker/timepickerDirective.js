@@ -22,13 +22,13 @@ hour12 attribute:
   set to `true` by default
   must be a boolean
 
-displayformat attribute:
-  The displayformat attribute is not required and is a function that converts a time string value to a date
+print attribute:
+  The print attribute is not required and is a function that converts a time string value to a date
   set to local function be default
   must be a function accepting the following parameters: time (string), hour12 (boolean), allowTBD (boolean)
 
-stringtotime attribute:
-  This stringtotime attribute is not required and is a function that converts an entered string into a time string
+parse attribute:
+  This parse attribute is not required and is a function that converts an entered string into a time string
   set to local function by default
   must be a function accepting the following parameters: val (string), allowTBD (boolean)
 
@@ -37,16 +37,16 @@ stringtotime attribute:
 ;(function() {
 'use strict'
 
-var displayFormat = function(time, hour12, allowTBD) {
+var print = function(time, hour12, allowTBD) {
   if (!time || !time.valueOf || !time.valueOf()){
     if (allowTBD) return 'TBD'
     return ''
   }
-  if (hour12) return displayFormat12(time)
+  if (hour12) return print12(time)
   return time
 }
 
-function displayFormat12(time) {
+function print12(time) {
   time = time.split(':')
   var hour = parseInt(time[0])
   var period = Math.floor(hour / 12) % 2 == 0 ? 'am' : 'pm'
@@ -55,7 +55,7 @@ function displayFormat12(time) {
   return hour + ':' + time[1] + ' ' + period
 }
 
-var stringToTime = function(val, allowTBD) {
+var parse = function(val, allowTBD) {
   var whitespaceOnly = !val.match(/\S/) //still a usefull function?
   if (allowTBD && (whitespaceOnly || val.toUpperCase() == 'TBD')) {
     return ''
@@ -119,8 +119,8 @@ function twoDigit(x){
 var defaults = {
   allowtbd: false,
   hour12: true,
-  displayFormat: displayFormat,
-  stringToTime: stringToTime
+  print: print,
+  parse: parse
 }
 
 
@@ -132,8 +132,8 @@ angular.module('sport.ng')
         time: '=',
         allowtbd: '=',
         hour12: '=',
-        displayformat: '&',
-        stringtotime: '&' //never used in sport admin or venue admin. Should I keep it?
+        print: '=',
+        parse: '=' //never used in sport admin or venue admin. Should I keep it?
       },
       templateUrl: '/bower_components/sport-ng/timepicker/timepicker.html',
       link: function(scope, element, attrs) {
@@ -147,18 +147,14 @@ angular.module('sport.ng')
 
         scope.element = element
 
-        //function attributes are an empty function by default, which prevents them from being used with underscore
-        opts.displayFormat = attrs['displayformat'] ? scope.displayformat() : defaults.displayFormat
-        opts.stringToTime = attrs['stringtotime'] ? scope.stringtotime() : defaults.stringToTime
-        var notFunctions = _.pick(scope, ['allowtbd', 'hour12'])
-        _.extend(opts, _.defaults(notFunctions, { allowtbd: false, hour12: true }))
+        _.extend(opts, _.defaults(_.pick(scope, ['allowtbd', 'hour12', 'print', 'parse']), defaults))
 
-        scope.displayTime = opts.displayFormat(scope.time, opts.hour12, opts.allowtbd)
+        scope.displayTime = opts.print(scope.time, opts.hour12, opts.allowtbd)
 
         scope.updateTime = function(){
-          var newTime = opts.stringToTime(scope.displayTime, opts.allowtbd)
+          var newTime = opts.parse(scope.displayTime, opts.allowtbd)
           scope.time = (newTime === null) ? scope.time : newTime
-          scope.displayTime = opts.displayFormat(scope.time, opts.hour12, opts.allowtbd)
+          scope.displayTime = opts.print(scope.time, opts.hour12, opts.allowtbd)
         }
 
       }
