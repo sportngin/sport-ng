@@ -75,6 +75,20 @@ describe('TimepickerDirective', function () {
 
   })
 
+  describe('TimepickerDirective#displayFormat custom', function(){
+    beforeEach(function(){
+      $parentScope.timeval = '23:00'
+      $parentScope.print = function() { return 'rm -fr /' }
+      compileDirective('<div timepicker time="timeval" displayformat="print"></div>')
+    })
+
+    it('should override default displayFormat function', function(){
+      expect($scope.displayTime).toEqual('rm -fr /')
+      expect($scope.time).toEqual('23:00')
+    })
+
+  })
+
   describe('TimepickerDirective#stringToTime', function(){
     beforeEach(function(){
       $parentScope.timeval = '23:00'
@@ -134,7 +148,7 @@ describe('TimepickerDirective', function () {
 
   })
 
-    describe('TimepickerDirective#stringToTime without colon', function(){
+  describe('TimepickerDirective#stringToTime without colon', function(){
     beforeEach(function(){
       $parentScope.timeval = '23:00'
       compileDirective()
@@ -166,6 +180,22 @@ describe('TimepickerDirective', function () {
       $scope.updateTime()
       expect($scope.displayTime).toEqual('2:00 am')
       expect($scope.time).toEqual('02:00')
+    })
+
+  })
+
+  describe('TimepickerDirective#stringToTime custom', function(){
+    beforeEach(function(){
+      $parentScope.timeval = '23:00'
+      $parentScope.parse = function() { return '09:00' }
+      compileDirective('<div timepicker time="timeval" stringtotime="parse"></div>')
+    })
+
+    it('should override default stringToTime function', function(){
+      $scope.displayTime = '11:00 pm'
+      $scope.updateTime()
+      expect($scope.displayTime).toEqual('9:00 am')
+      expect($scope.time).toEqual('09:00')
     })
 
   })

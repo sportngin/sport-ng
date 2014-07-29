@@ -149,9 +149,9 @@ angular.module('sport.ng')
 
         scope.element = element
 
-        //is there an easier way to do the following two lines with _.defaults or _.extend or such? I don't think so....
-        opts.displayFormat = attrs['displayformat'] ? scope.displayformat : defaults.displayFormat
-        opts.stringToTime = attrs['stringtotime'] ? scope.stringtotime : defaults.stringToTime
+        //function attributes are an empty function by default, which prevents them from being used with underscore
+        opts.displayFormat = attrs['displayformat'] ? scope.displayformat() : defaults.displayFormat
+        opts.stringToTime = attrs['stringtotime'] ? scope.stringtotime() : defaults.stringToTime
         var notFunctions = _.pick(scope, ['allowtbd', 'hour12'])
         _.extend(opts, _.defaults(notFunctions, { allowtbd: false, hour12: true }))
 
