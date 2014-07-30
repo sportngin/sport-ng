@@ -61,8 +61,8 @@ describe('TimepickerDirective', function () {
 
     it('shoud display a time as it is stored', function() {
       $parentScope.timeval = '22:00'
-      $parentScope.format12 = false
-      compileDirective('<div timepicker time="timeval" hour12="format12"></div>')
+      $parentScope.format = 'HH:mm'
+      compileDirective('<div timepicker time="timeval" print="format"></div>')
 
       expect($scope.displayTime).toEqual('22:00')
     })
@@ -77,6 +77,7 @@ describe('TimepickerDirective', function () {
       compileDirective('<div timepicker time="timeval" allowtbd="tbd"></div>')
 
       expect($scope.displayTime).toEqual('TBD')
+      expect($scope.time).toEqual('')
     })
 
   })
@@ -143,6 +144,7 @@ describe('TimepickerDirective', function () {
       $scope.updateTime()
 
       expect($scope.displayTime).toEqual('TBD')
+      expect($scope.time).toEqual('')
     })
 
     it('shoud transform an empty string to "TBD" when TBD is allowed', function() {
@@ -150,6 +152,7 @@ describe('TimepickerDirective', function () {
       $scope.updateTime()
 
       expect($scope.displayTime).toEqual('TBD')
+      expect($scope.time).toEqual('')
     })
 
   })
@@ -193,7 +196,7 @@ describe('TimepickerDirective', function () {
   describe('TimepickerDirective#parse custom', function(){
     beforeEach(function(){
       $parentScope.timeval = '23:00'
-      $parentScope.format = function() { return '09:00' }
+      $parentScope.format = function() { return {hour:9, minute:0} }
       compileDirective('<div timepicker time="timeval" parse="format"></div>')
     })
 
