@@ -50,7 +50,7 @@ angular.module('sport.ng')
   })
   .directive('alerts', function alertsDirective(Alerts) {
     return {
-      restrict: 'E',
+      restrict: 'AE',
       scope: {},
       templateUrl: '/bower_components/sport-ng/alerts/alerts.html',
 

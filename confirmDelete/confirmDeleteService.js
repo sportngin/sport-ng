@@ -39,7 +39,7 @@ angular.module('sport.ng')
   .directive('confirmDelete', function confirmDeleteDirective(ConfirmDelete) {
 
     return {
-      restrict: 'E',
+      restrict: 'AE',
       scope: {},
       controllerAs: 'ctrl',
 
