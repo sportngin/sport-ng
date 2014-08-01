@@ -1,7 +1,7 @@
 ;(function() {
 'use strict'
 
-describe('spinnerButon', function () {
+describe('spinnerButton', function () {
   var $compile
   var $q
   var $parentScope
