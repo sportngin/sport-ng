@@ -53,7 +53,7 @@
    * @param {String} channelName The name of the channel the event should be triggered on.
    */
   Pusher.start = function() {
-    return exports.Pusher = new Pusher()
+    return exports.Pusher.instance = new Pusher()
   }
 
   /**
@@ -73,7 +73,7 @@
    */
   Pusher.reset = function() {
     Pusher.instances.splice(0)
-    exports.Pusher = null
+    exports.Pusher.instance = null
   }
 
   /**

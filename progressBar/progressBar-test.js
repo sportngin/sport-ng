@@ -3,44 +3,39 @@ describe('ProgressBar', function() {
 
   var directive
   var MockDirective
+  var $q
 
   beforeEach(module('sport.ng.templates'))
   beforeEach(module('sport.ng'))
-  beforeEach(inject(function(_MockDirective_) { MockDirective = _MockDirective_ }))
 
-  it('should use `percent` if passed in', function() {
-    directive = new MockDirective('<div progress-bar percent="73" total="10" completed="4"></div>')
-    expect(directive.$scope.progress()).toBe(73)
+  beforeEach(inject(function(_$q_, _MockDirective_) {
+    $q = _$q_
+    MockDirective = _MockDirective_
+  }))
+
+  beforeEach(function(){
+    MockPusher.start()
+  })
+  afterEach(function(){
+    MockPusher.reset()
   })
 
-  it('should calculate `percent` if not passed in', function() {
-    directive = new MockDirective('<div progress-bar total="10" completed="4"></div>')
-    expect(directive.$scope.progress()).toBe(40)
+  it('should update width on promise notify', function() {
+    var dfd = $q.defer()
+    var promise = dfd.promise
+    directive = new MockDirective('<div progress-bar promise="parentScopePromise"></div>', {parentScopePromise: promise})
+    dfd.notify({total: 10, completed: 6})
+    directive.$scope.$apply()
+    expect(directive.$scope.progressWidth()).toBe('60%')
   })
 
-  describe('pusher integration', function() {
-
-    var channel
-    var channelName = 'private-foo'
-
-    beforeEach(function() {
-      channel = MockPusher.channel(channelName)
-    })
-
-    afterEach(function() {
-      MockPusher.reset()
-    })
-
-    it('accepts a pusher channel if passed as `remoteJob`', function() {
-      directive = new MockDirective('<div progress-bar remote-job="jobInParentScope"></div>', {jobInParentScope: channel})
-      expect(directive.$scope.channel).toBe(channel)
-    })
-
-    it('should connect to the correct pusher channel if passed a `remoteJobName` (channel name)', function() {
-      directive = new MockDirective('<div progress-bar remote-job-name="'+channelName+'"></div>')
-      expect(directive.$scope.channel).toBe(channel)
-    })
-
+  it('should force 100% width on promise resolve', function() {
+    var dfd = $q.defer()
+    var promise = dfd.promise
+    directive = new MockDirective('<div progress-bar promise="parentScopePromise"></div>', {parentScopePromise: promise})
+    dfd.resolve()
+    directive.$scope.$apply()
+    expect(directive.$scope.progressWidth()).toBe('100%')
   })
 
 })
