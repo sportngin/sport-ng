@@ -28,16 +28,20 @@ module.exports = function(config) {
       'bower_components/tether/tether.js',
       'bower_components/underscore/underscore.js',
       'bower_components/restangular/src/restangular.js',
+      'lib/pusher.js',
+
+      // Add templates (using ng-html2js)
+     './!(lib|node_modules|*bower_components)/**/*.html',
 
       // Add templates (using ng-html2js)
      './!(node_modules|bower_components)/**/*.html',
 
       // App code
       'sport-ng.js',
-      './!(node_modules|*bower_components)/**/!(*-test).js',
+      './!(lib|node_modules|*bower_components)/**/!(*-test).js',
 
       // Test files
-      './!(node_modules|*bower_components)/**/*-test.js'
+      './!(lib|node_modules|*bower_components)/**/*-test.js'
     ],
 
 
