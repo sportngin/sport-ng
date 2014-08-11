@@ -16,6 +16,8 @@ var cleanCSS = function(css){
   return css.replace(/[^\d:]/g, '')
 }
 
+// color transformation functions sourced from jQuery Minicolors https://github.com/claviska/jquery-minicolors
+
 // Converts an HSB object to an RGB object
 function hsb2rgb(hsb) {
   var rgb = {}
