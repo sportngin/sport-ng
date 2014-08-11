@@ -126,7 +126,7 @@ angular.module('sport.ng')
       link: function(scope, element, attrs) {
 
         defaults = {
-          maxLength: 7,
+          maxlength: 7,
           autocomplete: false,
           lowercase: true,
           defaultColor: '#ffffff',
@@ -137,7 +137,7 @@ angular.module('sport.ng')
         var options = _.extend({}, defaults, _.omit(attrs, ['$$element', '$attr']))
 
         // setup input attributes
-        var attrOpts = _.pick(options, ['maxLength', 'autocomplete'])
+        var attrOpts = _.pick(options, ['maxlength', 'autocomplete'])
         for (var opt in attrOpts) {
           element.find('input').attr(opt, attrOpts[opt])
         }
