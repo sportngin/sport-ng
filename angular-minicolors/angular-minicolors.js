@@ -194,7 +194,7 @@ angular.module('sport.ng')
           currentCallback(color)
       },
       parseHex: function(string){
-        string = string.replace(/[^A-Fa-f0-9]/ig, '')
+        string = string.replace(/[^a-f0-9]/ig, '')
         if ((string.length !== 3 && string.length !== 6) || !string) return picker.defaultColor
         if (string.length === 3 && picker.expand) {
           string = string[0] + string[0] + string[1] + string[1] + string[2] + string[2]
