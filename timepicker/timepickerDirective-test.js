@@ -110,7 +110,7 @@ describe('TimepickerDirective', function () {
     })
 
     it('should ignore non-digit characters', function(){
-      $scope.displayTime = '3:asd00 am'
+      $scope.displayTime = '3:ksd00 am'
       $scope.updateTime()
       expect($scope.displayTime).toEqual('3:00 am')
       expect($scope.time).toEqual('03:00')
@@ -156,13 +156,6 @@ describe('TimepickerDirective', function () {
       expect($scope.time).toEqual('22:00')
     })
 
-    it('should correctly parse a 3 digit time without a colon', function(){
-      $scope.displayTime = '900 am'
-      $scope.updateTime()
-      expect($scope.displayTime).toEqual('9:00 am')
-      expect($scope.time).toEqual('09:00')
-    })
-
     it('should correctly parse a 2 digit time without a colon', function(){
       $scope.displayTime = '10 am'
       $scope.updateTime()
@@ -182,7 +175,7 @@ describe('TimepickerDirective', function () {
   describe('TimepickerDirective#parse custom', function(){
     beforeEach(function(){
       $parentScope.timeval = '23:00'
-      $parentScope.format = function() { return {hour:9, minute:0} }
+      $parentScope.format = function() { return moment('9:00am', 'h:mma') }
       compileDirective('<div timepicker time="timeval" parse="format"></div>')
     })
 

@@ -40,16 +40,14 @@ parse attribute:
 
 var parse = function(val, allowTBD) {
   var whitespaceOnly = !val.match(/\S/) //still a usefull function?
-  if (allowTBD && (whitespaceOnly || val.toUpperCase() == 'TBD')) return ''
+  if (allowTBD && (whitespaceOnly || val.toUpperCase() == 'TBD')) return moment('TBD')
 
-  var time = val.replace(/[^\damp]/gi, '')
-  var formats = ['hhmma', 'hmma', 'hhma', 'hma', 'HHmm', 'Hmm', 'HHm', 'Hm']
+  var time = val.replace(/[^\d:ap]/gi, '')
+  var formats = ['hh:mma', 'h:mma', 'hh:ma', 'h:ma', 'HH:mm', 'H:mm', 'HH:m', 'H:m', 'hhmma', 'hmma', 'hhma', 'hma', 'HHmm', 'Hmm', 'HHm', 'Hm']
 
   var momentTime = moment(time, formats)
 
-  console.log(momentTime.format(''))
-
-  return momentTime.isValid() ? momentTime : null
+  return momentTime
 
 }
 
@@ -92,10 +90,10 @@ angular.module('sport.ng')
         $scope.updateTime = function(){
           var newTime = opts.parse($scope.displayTime, opts.allowtbd)
           //don't change the time if the time was invalid
-          $scope.momentTime = (newTime === null) ? $scope.momentTime : newTime
+          $scope.momentTime = newTime.isValid() || newTime._i == 'TBD' ? newTime : $scope.momentTime
           //supports setting the time to '' in case of TBD
           //highly suspect. could be used to break timepicker when combined with custom print method
-          $scope.time = $scope.momentTime.isValid() ? $scope.momentTime.format(opts.saveFormat) : $scope.momentTime._i
+          $scope.time = $scope.momentTime.isValid() ? $scope.momentTime.format(opts.saveFormat) : ''
           $scope.displayTime = print($scope.momentTime, opts.print, opts.allowtbd)
         }
 
