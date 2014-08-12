@@ -148,9 +148,9 @@ function hex2rgb(hex) {
 }
 
 function calcHSB(hue, saturation, brightness){
-  h = keepWithin(360 - Math.floor(hue * (360 / 150)), 0, 360)
-  s = keepWithin(Math.floor(saturation * (100 / 150)), 0, 100)
-  b = keepWithin(100 - Math.floor(brightness * (100 / 150)), 0, 100)
+  var h = keepWithin(360 - Math.floor(hue * (360 / 150)), 0, 360)
+  var s = keepWithin(Math.floor(saturation * (100 / 150)), 0, 100)
+  var b = keepWithin(100 - Math.floor(brightness * (100 / 150)), 0, 100)
   return {h: h, s: s, b: b}
 }
 
