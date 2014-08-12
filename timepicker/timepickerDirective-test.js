@@ -116,20 +116,6 @@ describe('TimepickerDirective', function () {
       expect($scope.time).toEqual('03:00')
     })
 
-    it('should roll extra minutes into hour', function(){
-      $scope.displayTime = '1:62 am'
-      $scope.updateTime()
-      expect($scope.displayTime).toEqual('2:02 am')
-      expect($scope.time).toEqual('02:02')
-    })
-
-    it('should roll extra hours into moar hours', function(){
-      $scope.displayTime = '26:00 am'
-      $scope.updateTime()
-      expect($scope.displayTime).toEqual('2:00 am')
-      expect($scope.time).toEqual('02:00')
-    })
-
   })
 
   describe('TimepickerDirective#parse TBD allowed', function(){

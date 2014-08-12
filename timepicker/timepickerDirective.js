@@ -40,56 +40,16 @@ parse attribute:
 
 var parse = function(val, allowTBD) {
   var whitespaceOnly = !val.match(/\S/) //still a usefull function?
-  if (allowTBD && (whitespaceOnly || val.toUpperCase() == 'TBD')) {
-    return ''
-  } else if (whitespaceOnly) {
-    return null
-  }
+  if (allowTBD && (whitespaceOnly || val.toUpperCase() == 'TBD')) return ''
 
-  var pm = false
-  if (val.match(/pm/i)) pm = true //should I use `pm` or just `p` ?
-    var time = val.replace(/[^\d]/g, '').split(':')
+  var time = val.replace(/[^\damp]/gi, '')
+  var formats = ['hhmma', 'hmma', 'hhma', 'hma', 'HHmm', 'Hmm', 'HHm', 'Hm']
 
-  var hour
-  var minute
-  
-  if (time.length !== 2) {
-    var withoutColon = time[0]
-    //the switch statement is from the original code. Should I rewrite it?
-    switch (withoutColon.length) {
+  var momentTime = moment(time, formats)
 
-      case 1:
-      case 2:
-      hour = parseInt(withoutColon)
-      minute = 0
-      break
+  console.log(momentTime.format(''))
 
-      case 3:
-      hour = parseInt(withoutColon.substring(0,1))
-      minute = parseInt(withoutColon.substring(1))
-      break
-
-      default:
-      hour = parseInt(withoutColon.substring(0,2)) || 0
-      minute = parseInt(withoutColon.substring(2,4)) || 0
-    }
-  }
-
-  // otherwise, convert to numbers
-  else {
-    hour = parseInt(time[0])
-    minute = parseInt(time[1])
-  }
-
-  hour += Math.floor(minute / 60)
-  minute %= 60
-
-  if (pm) hour += 12
-    hour %= 24
-  if (hour == 0 || hour == 12) hour += 12
-    hour %= 24
-
-  return {hour: hour, minute: minute}
+  return momentTime.isValid() ? momentTime : null
 
 }
 
@@ -132,7 +92,7 @@ angular.module('sport.ng')
         $scope.updateTime = function(){
           var newTime = opts.parse($scope.displayTime, opts.allowtbd)
           //don't change the time if the time was invalid
-          $scope.momentTime = (newTime === null) ? $scope.momentTime : moment(newTime)
+          $scope.momentTime = (newTime === null) ? $scope.momentTime : newTime
           //supports setting the time to '' in case of TBD
           //highly suspect. could be used to break timepicker when combined with custom print method
           $scope.time = $scope.momentTime.isValid() ? $scope.momentTime.format(opts.saveFormat) : $scope.momentTime._i
