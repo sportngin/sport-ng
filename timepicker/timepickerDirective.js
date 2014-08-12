@@ -6,7 +6,7 @@ Usage:
   The timepicker directive should be used whereever a timepicker input
   be displayed:
 
-    <timepicker time="ctrl.eventTime"></timepicker>
+    <div timepicker time="ctrl.eventTime"></div>
 
 time attribute:
   The time attribute is required and takes the place of ng-model
