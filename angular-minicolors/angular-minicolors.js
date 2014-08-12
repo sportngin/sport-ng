@@ -131,8 +131,6 @@ angular.module('sport.ng')
       link: function(scope, element, attrs) {
 
         var defaults = {
-          maxlength: 7,
-          autocomplete: false,
           lowercase: true,
           defaultColor: '#ffffff',
           expand: true
@@ -140,12 +138,6 @@ angular.module('sport.ng')
 
         // copy the options we care about
         var options = _.extend({}, defaults, _.omit(attrs, ['$$element', '$attr']))
-
-        // setup input attributes
-        var attrOpts = _.pick(options, ['maxlength', 'autocomplete'])
-        for (var opt in attrOpts) {
-          element.find('input').attr(opt, attrOpts[opt])
-        }
 
         if (attrs['class']) element.find('span').addClass(attrs['class'].replace(/ng-[^\s]+/g, ''))
 

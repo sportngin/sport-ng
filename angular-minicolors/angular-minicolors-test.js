@@ -34,11 +34,6 @@ describe('AngularMinicolors', function () {
       compileDirective()
     })
 
-    it('should initialize with default attributes', function() {
-      expect(elm.find('input').attr('maxlength')).toEqual('7')
-      expect(elm.find('input').attr('autocomplete')).toEqual('false')
-    })
-
     it('should default color to #ffffff', function() {
       expect(anchorScope.color).toEqual('#ffffff')
       expect(elm.find('a').css('background-color')).toEqual('rgb(255, 255, 255)')
@@ -54,16 +49,11 @@ describe('AngularMinicolors', function () {
 
     beforeEach(function() {
       $parentScope.colorval = "#000000"
-      compileDirective('<div minicolors color="colorval" maxlength="8" autocomplete="true" class="x100"></div>')
+      compileDirective('<div minicolors color="colorval" class="x100"></div>')
     })
 
     it('should transfer classes to colorpicker', function() {
       expect(elm.find('span').hasClass('x100')).toBe(true)
-    })
-
-    it('should transfer attributes to colorpicker', function() {
-      expect(elm.find('input').attr('maxlength')).toEqual('8')
-      expect(elm.find('input').attr('autocomplete')).toEqual('true')
     })
 
     it('should display correct color', function(){
