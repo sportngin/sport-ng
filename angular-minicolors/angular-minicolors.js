@@ -206,6 +206,7 @@ angular.module('sport.ng')
   })
 
   .factory('MinicolorsService', function(_){
+    var currentCallback = null
     var picker = {
       show: function(element, color, callback, opts) {
         if (element === picker.element) return
