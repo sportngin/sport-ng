@@ -1,4 +1,7 @@
 
+;(function() {
+'use strict'
+
 var refocusing = false
 
 function keepWithin(value, min, max) {
@@ -127,7 +130,7 @@ angular.module('sport.ng')
       templateUrl: '/bower_components/sport-ng/angular-minicolors/input.html',
       link: function(scope, element, attrs) {
 
-        defaults = {
+        var defaults = {
           maxlength: 7,
           autocomplete: false,
           lowercase: true,
@@ -146,7 +149,7 @@ angular.module('sport.ng')
 
         if (attrs['class']) element.find('span').addClass(attrs['class'].replace(/ng-[^\s]+/g, ''))
 
-        var showColor = scope.color ? convertCase(scope.color, options.lowercase) : convertCase('#ffffff', options.lowercase)
+        var showColor = convertCase(scope.color || '#ffffff', options.lowercase)
 
         var updateColor = function(newColor) {
           if (newColor){
@@ -365,3 +368,5 @@ angular.module('sport.ng')
     }
 
   })
+
+}())
