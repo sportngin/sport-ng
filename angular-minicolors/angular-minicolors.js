@@ -1,3 +1,38 @@
+/*
+Colorpicker directive
+
+Usage:
+
+  The minicolors-picker directive must be included on the page:
+
+    <minicolors-picker></minicolors-picker>
+
+  The minicolors directive should be used whereever a minicolors input
+  be displayed:
+
+    <div minicolors color="ctrl.theColor"></div>
+
+color attribute:
+  The color attribute is required and takes the place of ng-model
+  must be a valid hex string
+
+lowercase attribute:
+  The lowercase attribute is optional and defines which case the hex color should be displayed in
+  defaults to `true`
+  must be a boolean
+
+defaultColor attribute:
+  The defaultColor attribute is optional and defines what the picker's default color is, as well as
+  what color the picker defaults to if an invalid hex string is entered
+  defaults to '#ffffff'
+  must be a valid hex string
+
+expand attribute:
+  The expand attribute is optional and defines whether a 3 character hex is acceptable
+  defaults to `true`
+  must be a boolean
+
+*/
 
 ;(function() {
 'use strict'
