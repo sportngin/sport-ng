@@ -40,8 +40,8 @@ parse attribute:
 'use strict'
 
 var parse = function(val, allowTBD) {
-  var whitespaceOnly = !val.match(/\S/)
-  if (allowTBD && (whitespaceOnly || val.toUpperCase() == 'TBD')) return moment('TBD')
+  val = val.trim()
+  if (allowTBD && (!val || val.toUpperCase() == 'TBD')) return moment('TBD')
 
   var time = val.replace(/[^\d:ap]/gi, '')
   var formats = ['hh:mma', 'h:mma', 'hh:ma', 'h:ma', 'HH:mm', 'H:mm', 'HH:m', 'H:m', 'hhmma', 'hmma', 'hhma', 'hma', 'HHmm', 'Hmm', 'HHm', 'Hm']
