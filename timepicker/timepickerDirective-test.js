@@ -29,12 +29,12 @@ describe('TimepickerDirective', function () {
     compileDirective()
   })
 
-  describe('TimepickerDirective#print default (12hour) format', function () {
+  describe('#print default (12hour) format', function () {
 
     it('shoud display 00:00 as 12:00 am', function() {
       $parentScope.timeval = '00:00'
       compileDirective()
-      expect(elm.val()).toEqual('12:00 am')
+      expect(elm.val()).toEqual('12:0lkjlkj0 am')
     })
 
     it('shoud display 12:00 as 12:00 pm', function() {
@@ -63,7 +63,7 @@ describe('TimepickerDirective', function () {
 
   })
 
-  describe('TimepickerDirective#print 24hour format', function () {
+  describe('#print 24hour format', function () {
 
     it('shoud display a time as it is stored', function() {
       $parentScope.timeval = '22:00'
@@ -74,7 +74,7 @@ describe('TimepickerDirective', function () {
 
   })
 
-  describe('TimepickerDirective#print TBD allowed', function () {
+  describe('#print TBD allowed', function () {
 
     it('shoud display \'\' as "TBD" when TBD is allowed', function() {
       $parentScope.timeval = ''
@@ -85,7 +85,7 @@ describe('TimepickerDirective', function () {
 
   })
 
-  describe('TimepickerDirective#print custom function', function(){
+  describe('#print custom function', function(){
     beforeEach(function(){
       $parentScope.timeval = '23:00'
       $parentScope.format = function() { return 'rm -fr /' }
@@ -99,7 +99,7 @@ describe('TimepickerDirective', function () {
 
   })
 
-  describe('TimepickerDirective#print custom format', function(){
+  describe('#print custom format', function(){
     beforeEach(function(){
       $parentScope.timeval = '23:00'
       $parentScope.format = 'HH:mm'
@@ -113,7 +113,7 @@ describe('TimepickerDirective', function () {
 
   })
 
-  describe('TimepickerDirective#parse', function(){
+  describe('#parse', function(){
     beforeEach(function(){
       $parentScope.timeval = '23:00'
       compileDirective()
@@ -139,7 +139,7 @@ describe('TimepickerDirective', function () {
 
   })
 
-  describe('TimepickerDirective#parse TBD allowed', function(){
+  describe('#parse TBD allowed', function(){
     beforeEach(function(){
       $parentScope.timeval = ''
       $parentScope.tbd = true
@@ -160,7 +160,7 @@ describe('TimepickerDirective', function () {
 
   })
 
-  describe('TimepickerDirective#parse without colon', function(){
+  describe('#parse without colon', function(){
     beforeEach(function(){
       $parentScope.timeval = '23:00'
       compileDirective()
@@ -186,7 +186,7 @@ describe('TimepickerDirective', function () {
 
   })
 
-  describe('TimepickerDirective#parse custom', function(){
+  describe('#parse custom', function(){
     beforeEach(function(){
       $parentScope.timeval = '23:00'
       $parentScope.format = function() { return moment('9:00am', 'h:mma') }
