@@ -12,11 +12,17 @@ describe('TimepickerDirective', function () {
 
   function compileDirective(tpl) {
     if (!tpl) {
-      tpl = '<div timepicker time="timeval"></div>'
+      tpl = '<input timepicker ng-model="timeval" />'
     }
     elm = $compile(tpl)($parentScope)
     $parentScope.$digest()
     $scope = elm.isolateScope()
+  }
+
+  function changeInput(element, value) {
+    element.val(value)
+    element.trigger('input')
+    $(elm).blur()
   }
 
   it('should initialize', function() {
@@ -28,31 +34,31 @@ describe('TimepickerDirective', function () {
     it('shoud display 00:00 as 12:00 am', function() {
       $parentScope.timeval = '00:00'
       compileDirective()
-      expect($scope.displayTime).toEqual('12:00 am')
+      expect(elm.val()).toEqual('12:00 am')
     })
 
     it('shoud display 12:00 as 12:00 pm', function() {
       $parentScope.timeval = '12:00'
       compileDirective()
-      expect($scope.displayTime).toEqual('12:00 pm')
+      expect(elm.val()).toEqual('12:00 pm')
     })
 
     it('shoud display 24:00 as 12:00 am', function() {
       $parentScope.timeval = '24:00'
       compileDirective()
-      expect($scope.displayTime).toEqual('12:00 am')
+      expect(elm.val()).toEqual('12:00 am')
     })
 
     it('shoud display evening times as a pm string with a single character hour', function() {
       $parentScope.timeval = '13:00'
       compileDirective()
-      expect($scope.displayTime).toEqual('1:00 pm')
+      expect(elm.val()).toEqual('1:00 pm')
     })
 
     it('shoud display evening times as pm string with a double character hour', function() {
       $parentScope.timeval = '22:00'
       compileDirective()
-      expect($scope.displayTime).toEqual('10:00 pm')
+      expect(elm.val()).toEqual('10:00 pm')
     })
 
   })
@@ -62,9 +68,8 @@ describe('TimepickerDirective', function () {
     it('shoud display a time as it is stored', function() {
       $parentScope.timeval = '22:00'
       $parentScope.format = 'HH:mm'
-      compileDirective('<div timepicker time="timeval" print="format"></div>')
-
-      expect($scope.displayTime).toEqual('22:00')
+      compileDirective('<input timepicker ng-model="timeval" print="format" />')
+      expect(elm.val()).toEqual('22:00')
     })
 
   })
@@ -74,24 +79,36 @@ describe('TimepickerDirective', function () {
     it('shoud display \'\' as "TBD" when TBD is allowed', function() {
       $parentScope.timeval = ''
       $parentScope.tbd = true
-      compileDirective('<div timepicker time="timeval" allowtbd="tbd"></div>')
-
-      expect($scope.displayTime).toEqual('TBD')
-      expect($scope.time).toEqual('')
+      compileDirective('<input timepicker ng-model="timeval" allowtbd="tbd" />')
+      expect(elm.val()).toEqual('TBD')
     })
 
   })
 
-  describe('TimepickerDirective#print custom', function(){
+  describe('TimepickerDirective#print custom function', function(){
     beforeEach(function(){
       $parentScope.timeval = '23:00'
       $parentScope.format = function() { return 'rm -fr /' }
-      compileDirective('<div timepicker time="timeval" print="format"></div>')
+      compileDirective('<input timepicker ng-model="timeval" print="format" />')
     })
 
     it('should override default print function', function(){
-      expect($scope.displayTime).toEqual('rm -fr /')
-      expect($scope.time).toEqual('23:00')
+      expect(elm.val()).toEqual('rm -fr /')
+      expect($parentScope.timeval).toEqual('23:00')
+    })
+
+  })
+
+  describe('TimepickerDirective#print custom format', function(){
+    beforeEach(function(){
+      $parentScope.timeval = '23:00'
+      $parentScope.format = 'HH:mm'
+      compileDirective('<input timepicker ng-model="timeval" print="format" />')
+    })
+
+    it('should override default print function', function(){
+      expect(elm.val()).toEqual('23:00')
+      expect($parentScope.timeval).toEqual('23:00')
     })
 
   })
@@ -103,17 +120,21 @@ describe('TimepickerDirective', function () {
     })
 
     it('should not change the time if an empty string is entered', function(){
-      $scope.displayTime = ''
-      $scope.updateTime()
-      expect($scope.displayTime).toEqual('11:00 pm')
-      expect($scope.time).toEqual('23:00')
+      changeInput(elm, '')
+      expect(elm.val()).toEqual('11:00 pm')
+      expect($parentScope.timeval).toEqual('23:00')
     })
 
     it('should ignore non-digit characters', function(){
-      $scope.displayTime = '3:ksd00 am'
-      $scope.updateTime()
-      expect($scope.displayTime).toEqual('3:00 am')
-      expect($scope.time).toEqual('03:00')
+      changeInput(elm, '3:ksd00 am')
+      expect(elm.val()).toEqual('3:00 am')
+      expect($parentScope.timeval).toEqual('03:00')
+    })
+
+    it('should ignore meridiem case', function(){
+      changeInput(elm, '4:00 AM')
+      expect(elm.val()).toEqual('4:00 am')
+      expect($parentScope.timeval).toEqual('04:00')
     })
 
   })
@@ -122,23 +143,19 @@ describe('TimepickerDirective', function () {
     beforeEach(function(){
       $parentScope.timeval = ''
       $parentScope.tbd = true
-      compileDirective('<div timepicker time="timeval" allowtbd="tbd"></div>')
+      compileDirective('<input timepicker ng-model="timeval" allowtbd="tbd" />')
     })
 
     it('shoud transform "tbd" to "TBD" when TBD is allowed', function() {
-      $scope.displayTime = 'tbd'
-      $scope.updateTime()
-
-      expect($scope.displayTime).toEqual('TBD')
-      expect($scope.time).toEqual('')
+      changeInput(elm, 'tbd')
+      expect(elm.val()).toEqual('TBD')
+      expect($parentScope.timeval).toEqual('')
     })
 
     it('shoud transform an empty string to "TBD" when TBD is allowed', function() {
-      $scope.displayTime = ''
-      $scope.updateTime()
-
-      expect($scope.displayTime).toEqual('TBD')
-      expect($scope.time).toEqual('')
+      changeInput(elm, '')
+      expect(elm.val()).toEqual('TBD')
+      expect($parentScope.timeval).toEqual('')
     })
 
   })
@@ -150,24 +167,21 @@ describe('TimepickerDirective', function () {
     })
 
     it('should correctly parse a time without a colon', function(){
-      $scope.displayTime = '1000 pm'
-      $scope.updateTime()
-      expect($scope.displayTime).toEqual('10:00 pm')
-      expect($scope.time).toEqual('22:00')
+      changeInput(elm, '1000 pm')
+      expect(elm.val()).toEqual('10:00 pm')
+      expect($parentScope.timeval).toEqual('22:00')
     })
 
     it('should correctly parse a 2 digit time without a colon', function(){
-      $scope.displayTime = '10 am'
-      $scope.updateTime()
-      expect($scope.displayTime).toEqual('10:00 am')
-      expect($scope.time).toEqual('10:00')
+      changeInput(elm, '10 am')
+      expect(elm.val()).toEqual('10:00 am')
+      expect($parentScope.timeval).toEqual('10:00')
     })
 
     it('should correctly parse a 1 digit time without a colon', function(){
-      $scope.displayTime = '2 am'
-      $scope.updateTime()
-      expect($scope.displayTime).toEqual('2:00 am')
-      expect($scope.time).toEqual('02:00')
+      changeInput(elm, '2 am')
+      expect(elm.val()).toEqual('2:00 am')
+      expect($parentScope.timeval).toEqual('02:00')
     })
 
   })
@@ -176,14 +190,13 @@ describe('TimepickerDirective', function () {
     beforeEach(function(){
       $parentScope.timeval = '23:00'
       $parentScope.format = function() { return moment('9:00am', 'h:mma') }
-      compileDirective('<div timepicker time="timeval" parse="format"></div>')
+      compileDirective('<input timepicker ng-model="timeval" parse="format" />')
     })
 
-    it('should override default parse function', function(){
-      $scope.displayTime = '11:00 pm'
-      $scope.updateTime()
-      expect($scope.displayTime).toEqual('9:00 am')
-      expect($scope.time).toEqual('09:00')
+    it('should override the default parse function', function(){
+      changeInput(elm, '10:00 pm')
+      expect(elm.val()).toEqual('9:00 am')
+      expect($parentScope.timeval).toEqual('09:00')
     })
 
   })
