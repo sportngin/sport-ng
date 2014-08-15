@@ -33,14 +33,14 @@ module.exports = function(config) {
       'lib/pusher.js',
 
       // Add templates (using ng-html2js)
-     './!(lib|node_modules|*bower_components)/**/*.html',
+     './!(lib|node_modules|bower_components)/**/*.html',
 
       // App code
       'sport-ng.js',
-      './!(lib|node_modules|*bower_components)/**/!(*-test).js',
+      './!(lib|node_modules|bower_components)/**/!(*-test).js',
 
       // Test files
-      './!(lib|node_modules|*bower_components)/**/*-test.js'
+      './!(lib|node_modules|bower_components)/**/*-test.js'
     ],
 
 
