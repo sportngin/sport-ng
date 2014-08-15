@@ -35,9 +35,6 @@ module.exports = function(config) {
       // Add templates (using ng-html2js)
      './!(lib|node_modules|*bower_components)/**/*.html',
 
-      // Add templates (using ng-html2js)
-     './!(node_modules|bower_components)/**/*.html',
-
       // App code
       'sport-ng.js',
       './!(lib|node_modules|*bower_components)/**/!(*-test).js',
