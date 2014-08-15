@@ -63,13 +63,6 @@ module.exports = function(config) {
     },
 
 
-    // Load templateUrls
-    ngHtml2JsPreprocessor: {
-      prependPrefix: '/bower_components/sport-ng/',
-      moduleName: 'sport.ng.templates'
-    },
-
-
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
     reporters: ['progress'],
