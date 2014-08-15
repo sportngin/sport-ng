@@ -17,6 +17,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'bower_components/jquery/dist/jquery.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-animate/angular-animate.js',
       'bower_components/angular-mocks/angular-mocks.js',
@@ -26,6 +27,7 @@ module.exports = function(config) {
       'bower_components/i18next/i18next.js',
       'bower_components/i18ng/i18ng.js',
       'bower_components/tether/tether.js',
+      'bower_components/moment/moment.js',
       'bower_components/underscore/underscore.js',
       'bower_components/restangular/src/restangular.js',
       'lib/pusher.js',
@@ -49,7 +51,6 @@ module.exports = function(config) {
     exclude: [
       //'node_modules/**'
     ],
-
 
     // Load templateUrls
     ngHtml2JsPreprocessor: {
