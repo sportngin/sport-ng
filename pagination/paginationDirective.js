@@ -4,7 +4,7 @@ angular.module('sport.ng')
   .directive('pagination', function paginationDirective(_) {
 
     return {
-      restrict: 'E',
+      restrict: 'AE',
       scope: {
         getPage: '&',
         totalPages: '=',

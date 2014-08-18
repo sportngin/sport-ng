@@ -9,6 +9,8 @@ angular.module('sport.ng')
     }
 
     function startsWith(url) {
+      // sidestep issues w/ 'anything'.indexOf(''): 0
+      if (url === '') return false
       return $location.url().indexOf(url) === 0
     }
 

@@ -16,9 +16,10 @@ module.exports = function(config) {
     // frameworks to use
     frameworks: ['jasmine'],
 
-
     // list of files / patterns to load in the browser
     files: [
+      'testHelpers/**/*.js',
+
       'bower_components/jquery/dist/jquery.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-animate/angular-animate.js',
@@ -26,11 +27,16 @@ module.exports = function(config) {
       'bower_components/angular-resource/angular-resource.js',
       'bower_components/angular-route/angular-route.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
+      'bower_components/i18next/i18next.js',
       'bower_components/i18ng/i18ng.js',
       'bower_components/tether/tether.js',
       'bower_components/moment/moment.js',
       'bower_components/underscore/underscore.js',
       'bower_components/restangular/src/restangular.js',
+      'lib/pusher.js',
+
+      // Add templates (using ng-html2js)
+     './!(lib|node_modules|bower_components)/**/*.html',
 
       // Add templates (using ng-html2js)
       // Add everything, one page may use external directives
@@ -38,10 +44,10 @@ module.exports = function(config) {
 
       // App code
       'sport-ng.js',
-      './!(node_modules|*bower_components)/**/!(*-test).js',
+      './!(lib|node_modules|bower_components)/**/!(*-test).js',
 
       // Test files
-      './!(node_modules|*bower_components)/**/*-test.js'
+      './!(lib|node_modules|bower_components)/**/*-test.js'
     ],
 
 
