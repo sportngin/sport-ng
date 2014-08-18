@@ -17,6 +17,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'testHelpers/**/*.js',
+
       'bower_components/jquery/dist/jquery.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-animate/angular-animate.js',
@@ -33,17 +35,14 @@ module.exports = function(config) {
       'lib/pusher.js',
 
       // Add templates (using ng-html2js)
-     './!(lib|node_modules|*bower_components)/**/*.html',
-
-      // Add templates (using ng-html2js)
-     './!(node_modules|bower_components)/**/*.html',
+     './!(lib|node_modules|bower_components)/**/*.html',
 
       // App code
       'sport-ng.js',
-      './!(lib|node_modules|*bower_components)/**/!(*-test).js',
+      './!(lib|node_modules|bower_components)/**/!(*-test).js',
 
       // Test files
-      './!(lib|node_modules|*bower_components)/**/*-test.js'
+      './!(lib|node_modules|bower_components)/**/*-test.js'
     ],
 
 
