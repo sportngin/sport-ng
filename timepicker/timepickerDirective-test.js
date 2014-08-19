@@ -125,6 +125,12 @@ describe('TimepickerDirective', function () {
       expect($parentScope.timeval).toEqual('23:00')
     })
 
+    it('should correctly parse 24:00', function() {
+      changeInput(elm, '24:00')
+      expect(elm.val()).toEqual('12:00 am')
+      expect($parentScope.timeval).toEqual('00:00')
+    })
+
     it('should ignore non-digit characters', function(){
       changeInput(elm, '3:ksd00 am')
       expect(elm.val()).toEqual('3:00 am')
