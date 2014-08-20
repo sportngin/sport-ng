@@ -2,3 +2,7 @@
 * add timepicker (uses moment)
 * spinner-button rework
 * Karma improvements
+
+### v1.2.0
+* Progress bar
+* Pusher / Mock Pusher for karma tests (needed for progress bar)
