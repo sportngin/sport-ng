@@ -45,7 +45,7 @@ var parse = function(val, allowTBD) {
 
   var time = val.replace(/[^\d:ap]/gi, '')
   if (time.match(/24:?0*/)) time = '00:00'
-  var formats = ['hh:mma', 'h:mma', 'hh:ma', 'h:ma', 'HH:mm', 'H:mm', 'HH:m', 'H:m', 'hhmma', 'hmma', 'hhma', 'hma', 'HHmm', 'Hmm', 'HHm', 'Hm']
+  var formats = ['h:ma', 'H:m', 'hma', 'Hm']
 
   var momentTime = moment(time, formats)
   return momentTime
