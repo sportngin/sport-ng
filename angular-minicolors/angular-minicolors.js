@@ -154,16 +154,21 @@ function calcHSB(hue, saturation, brightness){
   return {h: h, s: s, b: b}
 }
 
+var inputTemplate = '<span class="minicolors-swatchwrap x100">' + 
+  '<a class="minicolors-swatch x100" ng-click="show()" ng-focus="show()" ng-blur="tryHide()" href="#" tabindex="0"></a>' +
+  '</span>'
+
 angular.module('sport.ng')
 
-  .directive('minicolors', function(MinicolorsService, _) {
+  .directive('minicolors', function(MinicolorsService, _, $compile) {
     return {
-      restrict: 'EA',
-      scope: {
-        color: '='
-      },
-      templateUrl: '/bower_components/sport-ng/angular-minicolors/input.html',
-      link: function(scope, element, attrs) {
+      restrict: 'A',
+      require: 'ngModel',
+      scope: {},
+      link: function(scope, element, attrs, ngModel) {
+
+        var swatch = $compile(inputTemplate)(scope)
+        element.after(swatch)
 
         var defaults = {
           lowercase: true,
@@ -171,36 +176,38 @@ angular.module('sport.ng')
           expand: true
         }
 
-        // copy the options we care about
-        var options = _.extend({}, defaults, _.omit(attrs, ['$$element', '$attr']))
+        var options = _.pick(attrs, 'lowercase', 'defaultColor', 'expand')
 
-        if (attrs['class']) element.find('span').addClass(attrs['class'].replace(/ng-[^\s]+/g, ''))
-
-        var showColor = convertCase(scope.color || '#ffffff', options.lowercase)
+        var showColor = convertCase(ngModel.$modelValue || '#ffffff', options.lowercase)
 
         var updateColor = function(newColor) {
+          console.log(newColor)
+          console.log('SETTING COLOR')
           if (newColor){
             newColor = convertCase(newColor, options.lowercase)
-            if (newColor !== scope.color) scope.color = newColor
+            if (newColor !== ngModel.$modelValue) ngModel.$modelValue = newColor
             showColor = newColor
-            element.find('a').css('background-color', newColor)
+            swatch.find('a').css('background-color', newColor)
+            console.log('background color!', swatch.find('a').css('background-color'))
           }
         }
 
         scope.show = function() {
-          if (!refocusing) MinicolorsService.show(element, showColor, scope.setColor, _.pick(options, ['lowercase', 'defaultColor', 'expand']))
+          if (!refocusing) MinicolorsService.show(swatch, showColor, scope.setColor, _.pick(options, ['lowercase', 'defaultColor', 'expand']))
         }
 
         scope.tryHide = function() { MinicolorsService.tryHide() }
 
         scope.setColor = function(newColor) { updateColor(newColor) }
 
-        scope.$watch('color', function(newColor) {
-          updateColor(newColor)
-        })
+        //using $watch instead of $render to avoid race conditions/conflicts
+        scope.$watch(
+          function() { return ngModel.$modelValue },
+          function(newColor) {
+            updateColor(newColor)
+          })
 
         updateColor(showColor)
-        
       }
     }
   })
@@ -280,6 +287,8 @@ angular.module('sport.ng')
         element.on('mouseup', function() { clicking = false })
 
         $(document).on('mousedown', '.minicolors-grid, .minicolors-hues', function(e){
+          e.stopPropagation()
+          e.preventDefault()
           slider = $(e.currentTarget)
           move(slider, e, true)
         })

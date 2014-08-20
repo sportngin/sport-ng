@@ -13,7 +13,7 @@ describe('AngularMinicolors', function () {
 
   function compileDirective(tpl) {
     if (!tpl) {
-      tpl = '<div minicolors color="colorval"></div>'
+      tpl = '<input type="hidden" minicolors ng-model="colorval" />'
     }
     elm = $compile(tpl)($parentScope)
     picker = $compile('<minicolors-picker></minicolors-picker>')($parentScope)
@@ -35,7 +35,8 @@ describe('AngularMinicolors', function () {
     })
 
     it('should default color to #ffffff', function() {
-      expect(anchorScope.color).toEqual('#ffffff')
+      console.log(elm.controller('ngModel').$modelValue)
+      expect(elm.controller('ngModel').$modelValue).toEqual('#ffffff')
       expect(elm.find('a').css('background-color')).toEqual('rgb(255, 255, 255)')
     })
 
@@ -49,14 +50,12 @@ describe('AngularMinicolors', function () {
 
     beforeEach(function() {
       $parentScope.colorval = "#000000"
-      compileDirective('<div minicolors color="colorval" class="x100"></div>')
-    })
-
-    it('should transfer classes to colorpicker', function() {
-      expect(elm.find('span').hasClass('x100')).toBe(true)
+      compileDirective('<input type="hidden" minicolors ng-model="colorval" />')
     })
 
     it('should display correct color', function(){
+      console.log(elm.controller('ngModel').$modelValue)
+      console.log(elm.find('a'))
       expect(elm.find('a').css('background-color')).toEqual('rgb(0, 0, 0)')
     })
 
