@@ -183,7 +183,7 @@ angular.module('sport.ng')
         var updateColor = function(newColor) {
           if (newColor){
             newColor = convertCase(newColor, options.lowercase)
-            if (newColor !== ngModel.$modelValue) ngModel.$modelValue = newColor
+            if (newColor !== ngModel.$modelValue) ngModel.$setViewValue(newColor)
             showColor = newColor
             swatch.find('a').css('background-color', newColor)
           }
@@ -203,8 +203,6 @@ angular.module('sport.ng')
           function(newColor) {
             updateColor(newColor)
           })
-
-        updateColor(showColor)
       }
     }
   })

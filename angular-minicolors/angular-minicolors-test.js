@@ -34,10 +34,8 @@ describe('AngularMinicolors', function () {
       compileDirective()
     })
 
-    it('should default color to #ffffff', function() {
-      console.log('ngModel', elm.controller('ngModel').$modelValue)
-      expect(elm.controller('ngModel').$modelValue).toEqual('#ffffff')
-      expect(elm.find('a').css('background-color')).toEqual('rgb(255, 255, 255)')
+    it('should leave ng-model blank', function() {
+      expect(elm.controller('ngModel').$modelValue).not.toBeDefined()
     })
 
     it('should hide colorpicker by default', function() {
@@ -54,7 +52,7 @@ describe('AngularMinicolors', function () {
     })
 
     it('should display correct color', function(){
-      expect(elm.css('background-color')).toEqual('rgb(255, 255, 255)')
+      expect(elm.controller('ngModel').$modelValue).toEqual('#000000')
     })
 
   })
