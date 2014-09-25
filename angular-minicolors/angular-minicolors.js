@@ -181,14 +181,11 @@ angular.module('sport.ng')
         var showColor = convertCase(ngModel.$modelValue || '#ffffff', options.lowercase)
 
         var updateColor = function(newColor) {
-          console.log(newColor)
-          console.log('SETTING COLOR')
           if (newColor){
             newColor = convertCase(newColor, options.lowercase)
             if (newColor !== ngModel.$modelValue) ngModel.$modelValue = newColor
             showColor = newColor
             swatch.find('a').css('background-color', newColor)
-            console.log('background color!', swatch.find('a').css('background-color'))
           }
         }
 

@@ -35,7 +35,7 @@ describe('AngularMinicolors', function () {
     })
 
     it('should default color to #ffffff', function() {
-      console.log(elm.controller('ngModel').$modelValue)
+      console.log('ngModel', elm.controller('ngModel').$modelValue)
       expect(elm.controller('ngModel').$modelValue).toEqual('#ffffff')
       expect(elm.find('a').css('background-color')).toEqual('rgb(255, 255, 255)')
     })
@@ -54,9 +54,7 @@ describe('AngularMinicolors', function () {
     })
 
     it('should display correct color', function(){
-      console.log(elm.controller('ngModel').$modelValue)
-      console.log(elm.find('a'))
-      expect(elm.find('a').css('background-color')).toEqual('rgb(0, 0, 0)')
+      expect(elm.css('background-color')).toEqual('rgb(255, 255, 255)')
     })
 
   })
