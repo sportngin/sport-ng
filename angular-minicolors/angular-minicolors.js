@@ -10,22 +10,18 @@ Usage:
   The minicolors directive should be used whereever a minicolors input
   be displayed:
 
-    <div minicolors color="ctrl.theColor"></div>
-
-color attribute:
-  The color attribute is required and takes the place of ng-model
-  must be a valid hex string
+    <input type="hidden" minicolors ng-model="ctrl.theColor" />
 
 lowercase attribute:
   The lowercase attribute is optional and defines which case the hex color should be displayed in
   defaults to `true`
   must be a boolean
 
-defaultColor attribute:
-  The defaultColor attribute is optional and defines what the picker's default color is, as well as
+default-color attribute:
+  The default-color attribute is optional and defines what the picker's default color is, as well as
   what color the picker defaults to if an invalid hex string is entered
   defaults to '#ffffff'
-  must be a valid hex string
+  must be a valid hex string wrapped in single quotes
 
 expand attribute:
   The expand attribute is optional and defines whether a 3 character hex is acceptable
@@ -164,7 +160,11 @@ angular.module('sport.ng')
     return {
       restrict: 'A',
       require: 'ngModel',
-      scope: {},
+      scope: {
+        lowercase: '=',
+        defaultColor: '=',
+        expand: '='
+      },
       link: function(scope, element, attrs, ngModel) {
 
         var swatch = $compile(inputTemplate)(scope)
@@ -176,9 +176,10 @@ angular.module('sport.ng')
           expand: true
         }
 
-        var options = _.pick(attrs, 'lowercase', 'defaultColor', 'expand')
+        var options = _.defaults(_.pick(scope, ['lowercase', 'defaultColor', 'expand']), defaults)
 
-        var showColor = convertCase(ngModel.$modelValue || '#ffffff', options.lowercase)
+        var showColor = convertCase(ngModel.$modelValue || options.defaultColor, options.lowercase)
+        swatch.find('a').css('background-color', showColor)
 
         var updateColor = function(newColor) {
           if (newColor){
@@ -190,7 +191,7 @@ angular.module('sport.ng')
         }
 
         scope.show = function() {
-          if (!refocusing) MinicolorsService.show(swatch, showColor, scope.setColor, _.pick(options, ['lowercase', 'defaultColor', 'expand']))
+          if (!refocusing) MinicolorsService.show(swatch, showColor, scope.setColor, options)
         }
 
         scope.tryHide = function() { MinicolorsService.tryHide() }
@@ -203,6 +204,7 @@ angular.module('sport.ng')
           function(newColor) {
             updateColor(newColor)
           })
+
       }
     }
   })
@@ -306,7 +308,7 @@ angular.module('sport.ng')
         scope.giveFocus = function() { inputFocus = true }
 
         scope.inputColor = function() {
-          scope.hsb = hex2hsb(MinicolorsService.parseHex(scope.color, true))
+          scope.hsb = hex2hsb(MinicolorsService.parseHex(scope.color))
           setDisplay(scope.hsb)
         }
 
@@ -392,7 +394,8 @@ angular.module('sport.ng')
               scope.hsb = calcHSB(y, cleanCSS(element.find('.minicolors-colorpicker').css('left')), cleanCSS(element.find('.minicolors-colorpicker').css('top')))
             })
           }
-          scope.color = hsb2hex(scope.hsb)
+
+          scope.color = convertCase(hsb2hex(scope.hsb), MinicolorsService.lowercase)
 
         }
 
