@@ -1,5 +1,5 @@
 describe('AngularMinicolors', function () {
-  var $compile, $parentScope, anchorScope, pickerScope, MinicolorsService
+  var $compile, $parentScope, pickerScope, MinicolorsService
   var elm
 
   beforeEach(angular.mock.module('sport.ng'))
@@ -18,7 +18,6 @@ describe('AngularMinicolors', function () {
     elm = $compile(tpl)($parentScope)
     picker = $compile('<minicolors-picker></minicolors-picker>')($parentScope)
     $parentScope.$digest()
-    anchorScope = elm.isolateScope()
     pickerScope = picker.scope()
 
 
