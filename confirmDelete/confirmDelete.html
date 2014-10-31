@@ -11,7 +11,7 @@
       <input ng-model="ctrl.typeName" type="text" class="x100"/>
     </div>
     <footer class="group form-actions right">
-      <button type="button" i18ng="'Cancel'" ng-click="ctrl.cancel()" class="no-style"></button>
+      <button type="button" i18ng="'Cancel'" ng-click="ctrl.cancel()" class="no-style" tabindex="-1"></button>
       <button type="submit" i18ng="'Yes_Delete_It'" ng-click="ctrl.confirm()" ng-disabled="ctrl.config.dangerZone && ctrl.config.name != ctrl.typeName"></button>
     </footer>
   </form>
