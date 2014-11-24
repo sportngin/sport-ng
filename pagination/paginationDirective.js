@@ -1,4 +1,5 @@
-'use strict';
+(function() {
+'use strict'
 
 angular.module('sport.ng')
   .directive('pagination', function paginationDirective(_) {
@@ -31,3 +32,5 @@ angular.module('sport.ng')
     }
 
   })
+
+})()
