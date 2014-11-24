@@ -1,4 +1,4 @@
-<modal showing="ctrl.config.showing" close="ctrl.cancel()" danger-zone="ctrl.config.dangerZone" classes="'px480'" offset="-240px 0px">
+<modal showing="ctrl.config.showing" close="ctrl.cancel()" danger-zone="ctrl.config.dangerZone" classes="'px480'">
   <header class="column el">
     <h1 i18ng="'confirm_delete_header'" i18ng-opts="ctrl.config" i18ng-html></h1>
   </header>
@@ -12,7 +12,7 @@
     </div>
     <footer class="group form-actions right">
       <button type="button" i18ng="'Cancel'" ng-click="ctrl.cancel()" class="no-style"></button>
-      <button type="submit" i18ng="'Yes_Delete_It'" ng-click="ctrl.confirm()" ng-disabled="ctrl.config.dangerZone && ctrl.config.name != ctrl.typeName"></button>
+      <button type="submit" i18ng="'Yes_Delete_It'" spinner-button spinner-click="ctrl.confirm()" ng-disabled="ctrl.config.dangerZone && ctrl.config.name != ctrl.typeName"></button>
     </footer>
   </form>
 </modal>

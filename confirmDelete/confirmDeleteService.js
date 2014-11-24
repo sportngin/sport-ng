@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('sport.ng')
+
   .factory('ConfirmDelete', function confirmDeleteService() {
     var config = {}
 
@@ -16,17 +17,19 @@ angular.module('sport.ng')
       config.showing = true
     }
 
-    function confirm() {
-      config.confirm()
-      cancel()
+    function confirm(instance) {
+      var promise = config.confirm()
+      if (promise && promise.then) return promise.then(cancel.bind(null, instance))
+      else cancel(instance)
     }
 
-    function cancel() {
+    function cancel(instance) {
       config.name = null
       config.type = null
       config.confirm = null
       config.dangerZone = false
       config.showing = false
+      instance.typeName = ''
     }
 
     return {
@@ -36,6 +39,7 @@ angular.module('sport.ng')
       config: config
     }
   })
+
   .directive('confirmDelete', function confirmDeleteDirective(ConfirmDelete) {
 
     return {
@@ -54,15 +58,8 @@ angular.module('sport.ng')
           type: this.config.type
         }
 
-        this.cancel = function() {
-          ConfirmDelete.cancel()
-          this.typeName = ''
-        }
-
-        this.confirm = function() {
-          ConfirmDelete.confirm()
-          this.typeName = ''
-        }
+        this.cancel = ConfirmDelete.cancel.bind(null, this)
+        this.confirm = ConfirmDelete.confirm.bind(null, this)
       }
     }
 
