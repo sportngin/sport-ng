@@ -22,15 +22,11 @@ angular.module('sport.ng')
             $scope.getPage({page:page})
         }
 
-        $scope.$watch('totalPages', function(value) {
-          setRange()
-        })
-
-        function setRange() {
-          $scope.pageRange = _.range(1, $scope.totalPages + 1)
+        function setRange(total) {
+          if (total == null) total = 0
+          $scope.pageRange = _.range(1, total + 1)
         }
-
-        setRange()
+        $scope.$watch('totalPages', setRange)
       }
     }
 
