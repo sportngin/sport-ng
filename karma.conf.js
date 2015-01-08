@@ -39,6 +39,7 @@ module.exports = function(config) {
 
       // App code
       'sport-ng.js',
+      'sport-ng-karma.js',
       './!(lib|node_modules|bower_components)/**/!(*-test).js',
 
       // Translation files...
