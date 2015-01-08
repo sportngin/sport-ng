@@ -29,6 +29,47 @@ describe('TimepickerDirective', function () {
     compileDirective()
   })
 
+  describe('#placeholders TBD allowed', function() {
+
+    describe('no placeholder', function() {
+      beforeEach(function(){
+        compileDirective('<input timepicker ng-model="timeval" allowtbd="true" />')
+      })
+
+      it('should replace lack of placeholder with "TBD"', function() {
+        // expected until translations are enabled in sport-ng karma
+        // should be 'TBD' when used in application
+        expect(elm.attr('placeholder')).toEqual('time_tbd')
+      })
+
+    })
+
+    describe('empty placeholder', function() {
+      beforeEach(function(){
+        compileDirective('<input timepicker ng-model="timeval" allowtbd="true" placeholder="" />')
+      })
+
+      it('should allow placeholder to be an empty string', function() {
+        expect(elm.attr('placeholder')).toEqual('')
+      })
+
+    })
+
+    describe('different placeholder', function() {
+      beforeEach(function(){
+        compileDirective('<input timepicker ng-model="timeval" allowtbd="true" placeholder="asdfk" />')
+      })
+
+      it('should not override specificed placeholder', function() {
+        expect(elm.attr('placeholder')).toEqual('asdfk')
+      })
+
+    })
+
+
+
+  })
+
   describe('#print default (12hour) format', function () {
 
     it('should display 00:00 as 12:00 am', function() {
