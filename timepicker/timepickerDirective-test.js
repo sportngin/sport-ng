@@ -76,11 +76,11 @@ describe('TimepickerDirective', function () {
 
   describe('#print TBD allowed', function () {
 
-    it('should display \'\' as "TBD" when TBD is allowed', function() {
+    it('should display "" as "" when TBD is allowed', function() {
       $parentScope.timeval = ''
       $parentScope.tbd = true
       compileDirective('<input timepicker ng-model="timeval" allowtbd="tbd" />')
-      expect(elm.val()).toEqual('TBD')
+      expect(elm.val()).toEqual('')
     })
 
   })
@@ -152,15 +152,15 @@ describe('TimepickerDirective', function () {
       compileDirective('<input timepicker ng-model="timeval" allowtbd="tbd" />')
     })
 
-    it('should transform "tbd" to "TBD" when TBD is allowed', function() {
+    it('should transform "tbd" to "" when TBD is allowed', function() {
       changeInput(elm, 'tbd')
-      expect(elm.val()).toEqual('TBD')
+      expect(elm.val()).toEqual('')
       expect($parentScope.timeval).toEqual('')
     })
 
-    it('should transform an empty string to "TBD" when TBD is allowed', function() {
-      changeInput(elm, '')
-      expect(elm.val()).toEqual('TBD')
+    it('should transform an "TBD" to "" when TBD is allowed', function() {
+      changeInput(elm, 'TBD')
+      expect(elm.val()).toEqual('')
       expect($parentScope.timeval).toEqual('')
     })
 

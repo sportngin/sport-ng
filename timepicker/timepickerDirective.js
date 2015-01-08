@@ -18,7 +18,8 @@ saveFormat attribute:
   must be a string that is a valid moment format
 
 allowtbd attribute:
-  The allowtbd attribute is optional and denotes whether a blank time will be converted to 'TBD' or rejected
+  The allowtbd attribute is optional and denotes whether a blank time will be converted to '' or rejected
+  intenteded to be used with placeholder="TBD"
   set to `false` by default
   must be a boolean
 
@@ -56,7 +57,6 @@ function print(time, format, allowTBD) {
     return format(time, allowTBD)
   }
   if (!time.isValid()){
-    if (allowTBD) return 'TBD'
     return ''
   }
   return time.format(format)
