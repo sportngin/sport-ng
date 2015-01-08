@@ -70,7 +70,7 @@ var defaults = {
 }
 
 angular.module('sport.ng')
-  .directive('timepicker', function(_) {
+  .directive('timepicker', function(_, i18ng) {
     return {
       restrict: 'A',
       require: 'ngModel',
@@ -84,6 +84,8 @@ angular.module('sport.ng')
 
         var opts = {}
         _.extend(opts, _.defaults(_.pick(scope, ['allowtbd', 'saveFormat', 'print', 'parse']), defaults))
+
+        if (opts.allowtbd && !('placeholder' in attrs)) element.attr('placeholder', i18ng.t('time_tbd'))
 
         function fromModel(modelValue) {
           if (modelValue == '24:00') modelValue = '00:00'
