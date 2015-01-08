@@ -1,0 +1,19 @@
+
+{
+  "Cancel"                  : "Cancel",
+  "confirm_delete"          : "Deleting &#8220;__name__&#8221; cannot be undone.",
+  "confirm_delete_header"   : "Delete __type__",
+
+  "TIME_REMAINING" : {
+    "minute"                : "__count__ minute",
+    "minute_plural"         : "__count__ minutes",
+    "second"                : "__count__ second",
+    "second_plural"         : "__count__ seconds",
+    "remaining"             : "remaining...",
+    "remaining_placeholder" : "Calculating time remaining..."
+  },
+
+  "time_tbd"                : "TBD",
+  "type_to_delete"          : "Type the __type__ name to delete.",
+  "Yes_Delete_It"           : "Yes, Delete It!"
+}

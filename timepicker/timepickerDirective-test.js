@@ -37,9 +37,7 @@ describe('TimepickerDirective', function () {
       })
 
       it('should replace lack of placeholder with "TBD"', function() {
-        // expected until translations are enabled in sport-ng karma
-        // should be 'TBD' when used in application
-        expect(elm.attr('placeholder')).toEqual('time_tbd')
+        expect(elm.attr('placeholder')).toEqual('TBD')
       })
 
     })

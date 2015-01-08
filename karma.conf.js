@@ -41,6 +41,9 @@ module.exports = function(config) {
       'sport-ng.js',
       './!(lib|node_modules|bower_components)/**/!(*-test).js',
 
+      // Translation files...
+      { pattern: 'locales/**/*.json', included: false, served: true },
+
       // Test files
       './!(lib|node_modules|bower_components)/**/*-test.js'
     ],
