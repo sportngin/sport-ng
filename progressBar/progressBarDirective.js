@@ -57,8 +57,8 @@ angular.module('sport.ng')
         }
 
         scope._completed = function() {
-          total = total || 1
-          completed = total
+          scope.total = scope.total || 1
+          scope.completed = scope.total
         }
 
         scope.$watch('promise', function(promise) {
