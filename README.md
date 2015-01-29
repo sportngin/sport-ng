@@ -1,5 +1,5 @@
 Contribute
-===============
+==========
 
 1. **Install dependencies**
 
@@ -11,10 +11,6 @@ Contribute
 
    ```bower install```
 
-2. **Project setup:**
-
-    ```grunt setup```
-
 2. **Run the unit tests:**
 
     ```grunt test``` - to run the all tests once in phantom js.
@@ -24,7 +20,7 @@ Contribute
 
 
 Install via Bower
-==============
+=================
 
 1. Run the following command in your project's root folder (where bower.json lives):
 
