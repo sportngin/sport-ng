@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test',    ['karma'])
   grunt.registerTask('ci',      ['test'])
-  grunt.registerTask('default', ['karma'])
+  grunt.registerTask('default', ['test'])
 
   // load the grunt task plugins
   grunt.loadNpmTasks('grunt-karma')
