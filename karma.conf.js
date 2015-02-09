@@ -12,6 +12,7 @@ module.exports = function(config) {
       '**/*.html': ['ng-html2js']
     },
 
+
     // frameworks to use
     frameworks: ['jasmine'],
 
