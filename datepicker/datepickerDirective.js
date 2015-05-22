@@ -80,16 +80,12 @@ angular.module('sport.ng')
             DatepickerService.show(element, ngModel.$modelValue, setDate)
         }
 
-        function tryHide() {
-          DatepickerService.tryHide()
-        }
-
         ngModel.$formatters.push(displayFormat)
         ngModel.$parsers.push(modelFormat)
 
         element.on('blur', function() {
-          element.val(displayFormat(ngModel.$modelValue))
-          scope.$apply(tryHide)
+          setDate(ngModel.$modelValue)
+          scope.$apply(setDate(ngModel.$modelValue))
         })
         element.on('focus', function() {
           scope.$apply(show)
