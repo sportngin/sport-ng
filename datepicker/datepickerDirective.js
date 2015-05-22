@@ -24,16 +24,6 @@ ng-model attribute:
 // state of the state
 var refocusing = false
 
-function displayFormat(date) {
-  return (moment(date).isValid() && !!date) ? moment(date).format('MMMM D YYYY'): ''
-}
-
-function modelFormat(date) {
-  var formats = ['MMMM D YYYY', 'MM DD YYYY']
-  var date = moment(date, formats)
-  return date.isValid() ? date.format('YYYY-MM-DD') : null
-}
-
 // Returns an array of arrays for the given month.
 // Each array represents a week and contains seven days.
 function calendarDays(year, month) {
@@ -80,12 +70,25 @@ angular.module('sport.ng')
             DatepickerService.show(element, ngModel.$modelValue, setDate)
         }
 
+        function displayFormat(date) {
+          return (moment(date).isValid() && !!date) ? moment(date).format('MMMM D YYYY'): ''
+        }
+
+        function modelFormat(date) {
+          var formats = ['MMMM D YYYY', 'MM DD YYYY']
+          var date = moment(date, formats)
+          // angular validation. improve when we update to >=1.3.0
+          if (date.isValid()) ngModel.$setValidity('date', true)
+          else ngModel.$setValidity('date', false)
+          return date.isValid() ? date.format('YYYY-MM-DD') : undefined
+        }
+
         ngModel.$formatters.push(displayFormat)
         ngModel.$parsers.push(modelFormat)
 
         element.on('blur', function() {
           setDate(ngModel.$modelValue)
-          scope.$apply(setDate(ngModel.$modelValue))
+          scope.$apply(DatepickerService.tryHide())
         })
         element.on('focus', function() {
           scope.$apply(show)
