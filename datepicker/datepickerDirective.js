@@ -9,13 +9,12 @@ Usage:
     <datepicker-calendar></datepicker-calendar>
 
   The datepicker directive should be used whereever a datepicker input
-  be displayed:
+  should be displayed:
 
-    <datepicker date="ctrl.eventDate"></datepicker>
+    <input datepicker type="text" ng-model="ctrl.eventDate" />
 
-date attribute:
-  The date attribute is required and takes the place of ng-model and
-  must be a date object.
+ng-model attribute:
+  ng-model is required and will store dates in YYYY-MM-DD format
 
 */
 
@@ -25,132 +24,81 @@ date attribute:
 // state of the state
 var refocusing = false
 
-// try to use built-in international date formatter
-var formatter
-if ('Intl' in window) {
-  formatter = window.Intl.DateTimeFormat(undefined, {day:'numeric', month:'short', year:'numeric'})
-}
-
-function monthName(month) {
-  return ['January', 'February', 'March', 'April',
-          'May', 'June', 'July', 'August', 'September',
-          'October', 'November', 'December'][month]
-}
-
-function isLeapYear(year) {
-  return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0))
-}
-
-function daysInMonth(year, month) {
-  return [31, (isLeapYear(year)? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month]
-}
-
-function nextMonth(year, month) {
-  return month < 11 ? { year:year, month:month+1 } : { year:year+1, month:0 }
-}
-
-function previousMonth(year, month) {
-  return month ? { year:year, month:month-1 } : { year:year-1, month:11 }
-}
-
 function displayFormat(date) {
-  if (!date || !date.valueOf || !date.valueOf()) return ''
-  if (formatter) return formatter.format(date)
-  return monthName(date.getMonth()).substring(0, 3) + ' ' + date.getDate() + ', ' + date.getFullYear()
+  return (moment(date).isValid() && !!date) ? moment(date).format('MMMM D YYYY'): ''
 }
 
-function stringToDate(val) {
-  val = val && val.replace(/-/g, '/') || ''
-  var date, d = Date.parse(val)
-  if (!d && !val) return
-
-  // Check for a year in the input value
-  if (!/\d{4}/.test(val)) {
-    // Set to current year if no year
-    val += ' ' + new Date().getFullYear()
-    d = new Date(val)
-    if (!d.valueOf())
-      val = val.replace(/\ /g, '/')
-  }
-
-  date = new Date(val)
-  return date.valueOf() ? date : null
+function modelFormat(date) {
+  var formats = ['MMMM D YYYY', 'MM DD YYYY']
+  var date = moment(date, formats)
+  return date.isValid() ? date.format('YYYY-MM-DD') : null
 }
 
 // Returns an array of arrays for the given month.
 // Each array represents a week and contains seven days.
-function calendarDays(year, month, date) {
-  var pmonth = previousMonth(year, month)
-  var dim = daysInMonth(year, month)
-  var pdim = daysInMonth(pmonth.year, pmonth.month)
-  var monthStart = (new Date(year, month, 1)).getDay()
-  var monthEnd = (new Date(year, month, dim)).getDay()
-  var now = new Date()
-  var thisMonth = month == now.getMonth() && year == now.getFullYear()
+function calendarDays(year, month) {
+  var current = moment({'year': year, 'month': month})
+  var previous = moment({'year': year, 'month': month - 1})
+  var now = moment()
+  var thisMonth = month == now.month() && year == now.year()
 
   var days = [[]]
   // previous month days
-  if (monthStart > 0) {
-    for (var i = pdim+1 - monthStart; i <= pdim; i++) {
+  if (current.startOf('month').day() > 0) {
+    for (var i = previous.daysInMonth() + 1 - current.startOf('month').day(); i <= previous.daysInMonth(); i++) {
       days[0].push({ day:i, disabled:true })
     }
   }
   // month days
-  for (var i = 1; i <= dim; i++) {
-    if ((monthStart + i - 1) % 7 === 0) days.push([])
-    var today = thisMonth && i == now.getDate()
+  for (var i = 1; i <= current.daysInMonth(); i++) {
+    if ((current.startOf('month').day() + i - 1) % 7 === 0) days.push([])
+    var today = thisMonth && i == now.date()
     days[days.length-1].push({ day:i, today:today })
   }
   // next month days
-  for (var i = 1; i < 7 - (monthEnd); i++) {
+  for (var i = 1; i < 7 - (current.endOf('month').day()); i++) {
     days[days.length-1].push({ day:i, disabled:true })
   }
   return days
 }
 
 angular.module('sport.ng')
-  .directive('datepicker', function(DatepickerService, _, $timeout) {
+  .directive('datepicker', function(DatepickerService, _, $parse, $timeout) {
     return {
-      restrict: 'AE',
-      scope: {
-        date: '='
-      },
-      templateUrl: '/bower_components/sport-ng/datepicker/datepicker.html',
-      link: function(scope, element, attrs) {
-        // transfer some of the attributes to the input, removing them from the datepicker element
-        var attributes = _.pick(attrs, ['id', 'name', 'tabindex'])
-        _.each(attributes, function(val, name) { element.removeAttr(name) })
-        element.find('input').attr(attributes)
-        if (attrs['class']) element.find('input').addClass(attrs['class'].replace(/ng-[^\s]+/g, ''))
+      restrict: 'A',
+      require: 'ngModel',
+      link: function(scope, element, attrs, ngModel) {
+        element.addClass('datepicker')
 
-        if (scope.date) {
-          scope.displayDate = displayFormat(scope.date)
-        }
-
-        scope.$watch('date', function(date, oldVal) {
-          scope.displayDate = displayFormat(date)
-        })
+        // using $parse to set ngModel.$modelValue
+        var modelSetter = $parse(attrs['ngModel']).assign
 
         function setDate(date) {
-          scope.date = date
+          modelSetter(scope, date)
         }
 
-        scope.show = function() {
+        function show() {
           if (!refocusing)
-            DatepickerService.show(element, scope.date, setDate)
+            DatepickerService.show(element, ngModel.$modelValue, setDate)
         }
 
-        scope.tryHide = function(dontParse) {
+        function tryHide() {
           DatepickerService.tryHide()
-          if (!dontParse) {
-            var date = stringToDate(scope.displayDate)
-            if (date != scope.date) setDate(date)
-          }
         }
 
-        scope.hide = function() {
-          DatepickerService.hide()
-        }
+        ngModel.$formatters.push(displayFormat)
+        ngModel.$parsers.push(modelFormat)
+
+        element.on('blur', function() {
+          element.val(displayFormat(ngModel.$modelValue))
+          scope.$apply(tryHide)
+        })
+        element.on('focus', function() {
+          scope.$apply(show)
+        })
+        element.on('click', function() {
+          scope.$apply(show)
+        })
 
       }
     }
@@ -192,13 +140,12 @@ angular.module('sport.ng')
         element.on('mouseup', function() { clicking = false })
 
         function setScope(year, month) {
-          var date = DatepickerService.date
-          var day = date && date.getMonth() == month && date.getFullYear() == year ? date.getDate() : null
-          scope.date = day
+          var date = moment(DatepickerService.date)
+          scope.date = date && date.month() == month && date.year() == year ? date.date() : null
           scope.month = month
           scope.year = year
-          scope.monthName = monthName(month)
-          scope.calDays = calendarDays(year, month, day)
+          scope.monthName = moment({'year': year, 'month': month}).format('MMMM')
+          scope.calDays = calendarDays(year, month)
         }
 
         function hide() {
@@ -209,7 +156,7 @@ angular.module('sport.ng')
           setTimeout(function() {
             if (DatepickerService.element) {
               refocusing = true
-              DatepickerService.element.find('input').focus()
+              DatepickerService.element.focus()
               refocusing = false
             }
           }, 1)
@@ -217,19 +164,19 @@ angular.module('sport.ng')
 
         scope.select = function(year, month, date, disabled) {
           if (disabled) return
-          var newDate = new Date(year, month, date)
+          var newDate = moment({'year': year, 'month': month, 'day': date}).format('YYYY-MM-DD')
           DatepickerService.set(newDate)
           hide()
         }
 
         scope.nextMonth = function(year, month) {
-          var next = nextMonth(year, month)
-          setScope(next.year, next.month)
+          var next = moment({'year': year, 'month': month + 1})
+          setScope(next.year(), next.month())
         }
 
         scope.previousMonth = function(year, month) {
-          var prev = previousMonth(year, month)
-          setScope(prev.year, prev.month)
+          var prev = moment({'year': year, 'month': month - 1})
+          setScope(prev.year(), prev.month())
         }
 
         scope.$watch(
@@ -244,8 +191,8 @@ angular.module('sport.ng')
         scope.$watch(
           function() { return DatepickerService.date },
           function(date, oldVal) {
-            if (!date) date = new Date()
-            setScope(date.getFullYear(), date.getMonth())
+            if (!date) date = moment()
+            setScope(moment(date).year(), moment(date).month())
           })
 
         var tetherRef
