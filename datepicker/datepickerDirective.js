@@ -11,7 +11,7 @@ Usage:
   The datepicker directive should be used whereever a datepicker input
   should be displayed:
 
-    <input datepicker type="text" ng-model="ctrl.eventDate" />
+    <datepicker ng-model="ctrl.eventDate"></datepicker>
 
 ng-model attribute:
   ng-model is required and will store dates in YYYY-MM-DD format
@@ -63,42 +63,32 @@ function calendarDays(year, month) {
 }
 
 angular.module('sport.ng')
-  .directive('datepicker', function(DatepickerService, _, $parse, $timeout) {
+  .directive('datepicker', function(DatepickerService, _, $timeout) {
     return {
-      restrict: 'A',
+      restrict: 'E',
+      replace: true,
+      scope: {},
       require: 'ngModel',
+      templateUrl: '/bower_components/sport-ng/datepicker/datepicker.html',
       link: function(scope, element, attrs, ngModel) {
-        element.addClass('datepicker')
-
-        // using $parse to set ngModel.$modelValue
-        var modelSetter = $parse(attrs['ngModel']).assign
 
         function setDate(date) {
-          modelSetter(scope, date)
+          ngModel.$setViewValue(displayFormat(date))
+          ngModel.$render()
         }
 
-        function show() {
+        scope.show = function() {
           if (!refocusing)
             DatepickerService.show(element, ngModel.$modelValue, setDate)
         }
 
-        function tryHide() {
+        scope.blur = function() {
+          setDate(ngModel.$modelValue)
           DatepickerService.tryHide()
         }
 
         ngModel.$formatters.push(displayFormat)
         ngModel.$parsers.push(modelFormat)
-
-        element.on('blur', function() {
-          element.val(displayFormat(ngModel.$modelValue))
-          scope.$apply(tryHide)
-        })
-        element.on('focus', function() {
-          scope.$apply(show)
-        })
-        element.on('click', function() {
-          scope.$apply(show)
-        })
 
       }
     }
@@ -170,12 +160,12 @@ angular.module('sport.ng')
         }
 
         scope.nextMonth = function(year, month) {
-          var next = moment({'year': year, 'month': month + 1})
+          var next = moment({'year': year, 'month': month}).add(1, 'months')
           setScope(next.year(), next.month())
         }
 
         scope.previousMonth = function(year, month) {
-          var prev = moment({'year': year, 'month': month - 1})
+          var prev = moment({'year': year, 'month': month}).subtract(1, 'months')
           setScope(prev.year(), prev.month())
         }
 
