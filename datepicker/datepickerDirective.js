@@ -78,9 +78,9 @@ angular.module('sport.ng')
           var formats = ['MMMM D YYYY', 'MM DD YYYY']
           var date = moment(date, formats)
           // angular validation. improve when we update to >=1.3.0
-          if (date.isValid()) ngModel.$setValidity('date', true)
-          else ngModel.$setValidity('date', false)
-          return date.isValid() ? date.format('YYYY-MM-DD') : undefined
+          var valid = date.isValid()
+          ngModel.$setValidity('date', valid)
+          return valid ? date.format('YYYY-MM-DD') : undefined
         }
 
         ngModel.$formatters.push(displayFormat)
@@ -88,7 +88,7 @@ angular.module('sport.ng')
 
         element.on('blur', function() {
           setDate(ngModel.$modelValue)
-          scope.$apply(DatepickerService.tryHide())
+          scope.$apply(DatepickerService.tryHide)
         })
         element.on('focus', function() {
           scope.$apply(show)
