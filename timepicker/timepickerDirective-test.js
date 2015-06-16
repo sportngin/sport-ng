@@ -231,7 +231,7 @@ describe('TimepickerDirective', function () {
 
   })
 
-  describe('#parse custom', function(){
+  describe('#parse custom function', function(){
     beforeEach(function(){
       $parentScope.timeval = '23:00'
       $parentScope.format = function() { return moment('9:00am', 'h:mma') }
@@ -242,6 +242,36 @@ describe('TimepickerDirective', function () {
       changeInput(elm, '10:00 pm')
       expect(elm.val()).toEqual('9:00 am')
       expect($parentScope.timeval).toEqual('09:00')
+    })
+
+  })
+
+  describe('#parse custom format string', function(){
+    beforeEach(function(){
+      $parentScope.timeval = '23:00'
+      $parentScope.format = 'h:mm:ss'
+      compileDirective('<input timepicker ng-model="timeval" parse="format" />')
+    })
+
+    it('should override the default parse format', function(){
+      changeInput(elm, '11:46:03')
+      expect(elm.val()).toEqual('11:46 am')
+      expect($parentScope.timeval).toEqual('11:46')
+    })
+
+  })
+
+  describe('#parse custom format array', function(){
+    beforeEach(function(){
+      $parentScope.timeval = '23:00'
+      $parentScope.format = ['h:mm', 'h:mm:ssa']
+      compileDirective('<input timepicker ng-model="timeval" parse="format" />')
+    })
+
+    it('should override the default parse function', function(){
+      changeInput(elm, '9:11:44 pm')
+      expect(elm.val()).toEqual('9:11 pm')
+      expect($parentScope.timeval).toEqual('21:11')
     })
 
   })
