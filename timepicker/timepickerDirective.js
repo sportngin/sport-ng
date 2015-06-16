@@ -22,7 +22,7 @@ print attribute:
   The print attribute is optional and converts a time string value to a date
   set to `h:mm a` by default
   must be one of the following:
-  1. moment date format string or array of such strings
+  1. moment date format string
   2. function accepting the following parameters: val (moment object), allowTBD (boolean), and returning a time string to display
 
 parse attribute:
