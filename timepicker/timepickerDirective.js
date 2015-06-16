@@ -45,9 +45,9 @@ var parse = function(val, format, allowTBD) {
   if (allowTBD && (!val || val.toUpperCase() == 'TBD')) return moment('TBD')
 
   var time = val.replace(/[^\d:ap]/gi, '')
-  if (time.match(/24:?0*/)) time = '00:00'
-
   var momentTime = moment(time, format, true)
+  // roll :90 over to 1:30, 24:00 over to 0:00 etc.
+  if (momentTime.parsingFlags().overflow != -1) momentTime = moment(momentTime.toDate())
   return momentTime
 }
 
