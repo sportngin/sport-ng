@@ -47,7 +47,7 @@ var parse = function(val, format, allowTBD) {
   var time = val.replace(/[^\d:ap]/gi, '')
   if (time.match(/24:?0*/)) time = '00:00'
 
-  var momentTime = moment(time, format)
+  var momentTime = moment(time, format, true)
   return momentTime
 }
 
@@ -65,7 +65,7 @@ var defaults = {
   allowtbd: false,
   saveFormat: 'HH:mm',
   print: 'h:mm a',
-  parse: ['h:ma', 'H:m', 'hma', 'Hm']
+  parse: ['h:ma', 'H:m', 'hma', 'Hm', 'ha']
 }
 
 angular.module('sport.ng')
