@@ -8,14 +8,10 @@ Usage:
 
     <input timepicker ng-model="ctrl.eventTime" />
 
-time attribute:
-  The time attribute is required and takes the place of ng-model
-  must be a string in the form promised by `dateformat`.
-
 saveFormat attribute:
   The saveFormat attributed is optional and tells moment what type of date/time format to expect
   set to `HH:mm` by default
-  must be a string that is a valid moment format
+  must be a valid moment format string
 
 allowtbd attribute:
   The allowtbd attribute is optional and denotes whether a blank time will be rejected
@@ -23,31 +19,35 @@ allowtbd attribute:
   must be a boolean
 
 print attribute:
-  The print attribute is optional and is a function that converts a time string value to a date
-  set to local function by default
-  must be a function accepting the following parameters: time (string), allowTBD (boolean)
-
-parse attribute:
-  This parse attribute is optional and is a function that converts an entered string into a time string
-  set to local function by default
+  The print attribute is optional and converts a time string value to a date
+  set to `h:mm a` by default
   must be one of the following:
   1. moment date format string
-  2. function accepting the following parameters: val (string), allowTBD (boolean), and returning a valid moment string or object
+  2. function accepting the following parameters: val (moment object), allowTBD (boolean), and returning a time string to display
+
+parse attribute:
+  This parse attribute is optional and converts an entered string into a moment time
+  set to `['h:ma', 'H:m', 'hma', 'Hm']` by default
+  must be one of the following:
+  1. moment date format string or array of such strings
+  2. function accepting the following paramters: val (string), allowTBD (boolean), and returning a moment object to be saved
 
 */
 
 ;(function() {
 'use strict'
 
-var parse = function(val, allowTBD) {
+var parse = function(val, format, allowTBD) {
+  if (angular.isFunction(format)) {
+    return format(val, allowTBD)
+  }
   val = val.trim()
   if (allowTBD && (!val || val.toUpperCase() == 'TBD')) return moment('TBD')
 
   var time = val.replace(/[^\d:ap]/gi, '')
-  if (time.match(/24:?0*/)) time = '00:00'
-  var formats = ['h:ma', 'H:m', 'hma', 'Hm']
-
-  var momentTime = moment(time, formats)
+  var momentTime = moment(time, format)
+  // roll 24:00 over to 0:00
+  if (momentTime.parsingFlags().overflow != -1) momentTime = moment(momentTime.toDate())
   return momentTime
 }
 
@@ -55,6 +55,8 @@ function print(time, format, allowTBD) {
   if (angular.isFunction(format) ) {
     return format(time, allowTBD)
   }
+  // roll 24:00 over to 0:00
+  if (time.parsingFlags().overflow != -1) time = moment(time.toDate())
   if (!time.isValid()){
     return ''
   }
@@ -65,7 +67,7 @@ var defaults = {
   allowtbd: false,
   saveFormat: 'HH:mm',
   print: 'h:mm a',
-  parse: parse
+  parse: ['h:ma', 'H:m', 'hma', 'Hm', 'ha']
 }
 
 angular.module('sport.ng')
@@ -87,12 +89,11 @@ angular.module('sport.ng')
         if (opts.allowtbd && !('placeholder' in attrs)) element.attr('placeholder', i18ng.t('time_tbd'))
 
         function fromModel(modelValue) {
-          if (modelValue == '24:00') modelValue = '00:00'
           return print(moment(modelValue, opts.saveFormat), opts.print, opts.allowtbd)
         }
 
         function toModel(viewValue) {
-          var newTime = opts.parse(viewValue, opts.allowtbd)
+          var newTime = parse(viewValue, opts.parse, opts.allowtbd)
           if (newTime._i == 'TBD') return ''
           return newTime.isValid() ? newTime.format(opts.saveFormat) : ngModel.$modelValue
         }
