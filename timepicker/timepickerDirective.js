@@ -46,7 +46,7 @@ var parse = function(val, format, allowTBD) {
 
   var time = val.replace(/[^\d:ap]/gi, '')
   var momentTime = moment(time, format, true)
-  // roll :90 over to 1:30, 24:00 over to 0:00 etc.
+  // roll 24:00 over to 0:00
   if (momentTime.parsingFlags().overflow != -1) momentTime = moment(momentTime.toDate())
   return momentTime
 }
@@ -55,6 +55,8 @@ function print(time, format, allowTBD) {
   if (angular.isFunction(format) ) {
     return format(time, allowTBD)
   }
+  // roll 24:00 over to 0:00
+  if (time.parsingFlags().overflow != -1) time = moment(time.toDate())
   if (!time.isValid()){
     return ''
   }
@@ -87,7 +89,6 @@ angular.module('sport.ng')
         if (opts.allowtbd && !('placeholder' in attrs)) element.attr('placeholder', i18ng.t('time_tbd'))
 
         function fromModel(modelValue) {
-          if (modelValue == '24:00') modelValue = '00:00'
           return print(moment(modelValue, opts.saveFormat), opts.print, opts.allowtbd)
         }
 
