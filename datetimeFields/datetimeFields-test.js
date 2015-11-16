@@ -9,7 +9,8 @@ describe('TournamentRegistrationSettings', function() {
   var el
   var baseObj
 
-  beforeEach(angular.mock.module('sportAdmin'))
+  beforeEach(angular.mock.module('sport.ng'))
+  beforeEach(angular.mock.module('sport.ng.templates'))
 
   beforeEach(inject(function(_$compile_, _moment_, $rootScope) {
     $compile = _$compile_

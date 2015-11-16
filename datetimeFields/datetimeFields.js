@@ -13,7 +13,7 @@ angular.module('sport.ng')
       translationKey: '=',
       printFormat: '='
     },
-    templateUrl: '/components/date/datetime-fields.html',
+    templateUrl: '/bower_components/sport-ng/datetimeFields/datetimeFields.html',
     controller: function($scope, moment) {
       $scope.dateObj = {}
 
