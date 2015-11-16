@@ -18,8 +18,6 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'testHelpers/**/*.js',
-
       'bower_components/jquery/dist/jquery.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-animate/angular-animate.js',
@@ -31,9 +29,12 @@ module.exports = function(config) {
       'bower_components/i18ng/i18ng.js',
       'bower_components/tether/tether.js',
       'bower_components/moment/moment.js',
+      'bower_components/moment-timezone/moment-timezone.js',
       'bower_components/underscore/underscore.js',
       'bower_components/restangular/src/restangular.js',
       'lib/pusher.js',
+
+      'testHelpers/**/*.js',
 
       // Add templates (using ng-html2js)
      './!(lib|node_modules|bower_components)/**/*.html',
