@@ -75,7 +75,7 @@ describe('TournamentRegistrationSettings', function() {
     })
     it('should correctly populate with time', function() {
       compile()
-      expect(timeField().val()).toBe('08:42')
+      expect(timeField().val()).toBe('8:42 am')
     })
     it('should correctly populate without time', function() {
       baseObj.datetime = null
