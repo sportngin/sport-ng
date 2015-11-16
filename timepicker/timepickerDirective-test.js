@@ -107,7 +107,7 @@ describe('TimepickerDirective', function () {
     it('should display a time as it is stored', function() {
       $parentScope.timeval = '22:00'
       $parentScope.format = 'HH:mm'
-      compileDirective('<input timepicker ng-model="timeval" print="format" />')
+      compileDirective('<input timepicker ng-model="timeval" print-format="format" />')
       expect(elm.val()).toEqual('22:00')
     })
 
@@ -128,7 +128,7 @@ describe('TimepickerDirective', function () {
     beforeEach(function(){
       $parentScope.timeval = '23:00'
       $parentScope.format = function() { return 'rm -fr /' }
-      compileDirective('<input timepicker ng-model="timeval" print="format" />')
+      compileDirective('<input timepicker ng-model="timeval" print-format="format" />')
     })
 
     it('should override default print function', function(){
@@ -142,7 +142,7 @@ describe('TimepickerDirective', function () {
     beforeEach(function(){
       $parentScope.timeval = '23:00'
       $parentScope.format = 'HH:mm'
-      compileDirective('<input timepicker ng-model="timeval" print="format" />')
+      compileDirective('<input timepicker ng-model="timeval" print-format="format" />')
     })
 
     it('should override default print function', function(){
