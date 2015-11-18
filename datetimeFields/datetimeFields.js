@@ -11,7 +11,7 @@ angular.module('sport.ng')
       timezone: '=',
       name: '=',
       translationKey: '=',
-      printFormat: '='
+      timeFormat: '='
     },
     templateUrl: '/bower_components/sport-ng/datetimeFields/datetimeFields.html',
     controller: function($scope, moment) {
@@ -23,6 +23,14 @@ angular.module('sport.ng')
         if(time) formattedDate.add(_.object(['hours', 'minutes'], time.split(':')))
         return moment(formattedDate).utc().format()
       }
+
+      var formats = {
+        '12': "h:mm a",
+        '24': "HH:mm"
+      }
+      function setFormat(timeFormat) { $scope.printFormat = formats[timeFormat] }
+      setFormat($scope.timeFormat)
+      $scope.$watch('timeFormat', function (timeFormat) { setFormat(timeFormat) })
 
       $scope.$watch('datetime', function (datetime) {
         if (datetime){
