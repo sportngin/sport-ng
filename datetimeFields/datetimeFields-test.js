@@ -22,10 +22,11 @@ describe('TournamentRegistrationSettings', function() {
       timezone: 'America/Los_Angeles'
     }
     outerScope.baseObj = baseObj
+    outerScope.timeFormat = '12'
   }))
 
   function compile() {
-    var template = '<div datetime-fields name="baseObj.name" datetime="baseObj.datetime" timezone="baseObj.timezone"></div>'
+    var template = '<div datetime-fields name="baseObj.name" datetime="baseObj.datetime" time-format="timeFormat" timezone="baseObj.timezone"></div>'
     el = $compile(template)(outerScope)
     outerScope.$digest()
   }
@@ -73,7 +74,18 @@ describe('TournamentRegistrationSettings', function() {
       compile()
       expect(timeField().length).toBe(1)
     })
-    it('should correctly populate with time', function() {
+    it('should correctly populate with "12" hour timeFormat', function() {
+      outerScope.timeFormat = '12'
+      compile()
+      expect(timeField().val()).toBe('8:42 am')
+    })
+    it('should correctly populate with "24" hour timeFormat', function() {
+      outerScope.timeFormat = '24'
+      compile()
+      expect(timeField().val()).toBe('08:42')
+    })
+    it('should correctly populate with 12 hour format when lacking timeFormat', function() {
+      outerScope.timeFormat = ''
       compile()
       expect(timeField().val()).toBe('8:42 am')
     })
