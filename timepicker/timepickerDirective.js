@@ -94,15 +94,16 @@ angular.module('sport.ng')
 
         function toModel(viewValue) {
           var newTime = parse(viewValue, opts.parse, opts.allowtbd)
-          if (newTime._i == 'TBD') return ''
-          return newTime.isValid() ? newTime.format(opts.saveFormat) : ngModel.$modelValue
+          if (newTime._i == 'TBD' || viewValue == "") return ''
+          return newTime.isValid() ? newTime.format(opts.saveFormat) : undefined
         }
 
         ngModel.$formatters.push(fromModel)
         ngModel.$parsers.push(toModel)
 
         element.on('blur', function() {
-          element.val(fromModel(ngModel.$modelValue))
+          if (ngModel.$viewValue != "")
+            element.val(fromModel(ngModel.$modelValue))
         })
 
       }
