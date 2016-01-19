@@ -66,7 +66,7 @@ function print(time, format, allowTBD) {
 var defaults = {
   allowtbd: false,
   saveFormat: 'HH:mm',
-  print: 'h:mm a',
+  printFormat: 'h:mm a',
   parse: ['h:ma', 'H:m', 'hma', 'Hm', 'ha']
 }
 
@@ -78,24 +78,23 @@ angular.module('sport.ng')
       scope: {
         allowtbd: '=',
         saveFormat: '=',
-        print: '=',
+        printFormat: '=',
         parse: '='
       },
       link: function(scope, element, attrs, ngModel) {
 
-        var opts = {}
-        _.extend(opts, _.defaults(_.pick(scope, ['allowtbd', 'saveFormat', 'print', 'parse']), defaults))
+        function getScopeOpt(opt) { return scope[opt] || defaults[opt] }
 
-        if (opts.allowtbd && !('placeholder' in attrs)) element.attr('placeholder', i18ng.t('time_tbd'))
+        if (getScopeOpt('allowtbd') && !('placeholder' in attrs)) element.attr('placeholder', i18ng.t('time_tbd'))
 
         function fromModel(modelValue) {
-          return print(moment(modelValue, opts.saveFormat), opts.print, opts.allowtbd)
+          return print(moment(modelValue, getScopeOpt('saveFormat')), getScopeOpt('printFormat'), getScopeOpt('allowtbd'))
         }
 
         function toModel(viewValue) {
-          var newTime = parse(viewValue, opts.parse, opts.allowtbd)
+          var newTime = parse(viewValue, getScopeOpt('parse'), getScopeOpt('allowtbd'))
           if (newTime._i == 'TBD' || viewValue == "") return ''
-          return newTime.isValid() ? newTime.format(opts.saveFormat) : undefined
+          return newTime.isValid() ? newTime.format(getScopeOpt('saveFormat')) : undefined
         }
 
         ngModel.$formatters.push(fromModel)
