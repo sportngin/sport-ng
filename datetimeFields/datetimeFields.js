@@ -11,7 +11,8 @@ angular.module('sport.ng')
       timezone: '=',
       name: '=',
       translationKey: '=',
-      timeFormat: '='
+      timeFormat: '=',
+      allowBlank: '='
     },
     templateUrl: '/bower_components/sport-ng/datetimeFields/datetimeFields.html',
     controller: function($scope, moment) {
