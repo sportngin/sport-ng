@@ -1,7 +1,7 @@
 ;(function() {
 'use strict'
 
-describe('TournamentRegistrationSettings', function() {
+describe('datetimeFields directive', function() {
 
   var $compile
   var moment
