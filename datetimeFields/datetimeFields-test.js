@@ -62,10 +62,12 @@ describe('datetimeFields directive', function() {
       dateField().val('March 15 2015').change()
       expect(baseObj.datetime).toBe('2015-03-15T15:42:00+00:00')
     })
-    it('shoudl clear', function() {
+    it('should clear both date and time fields if date is deleted', function() {
       compile()
       dateField().val('').change()
       expect(baseObj.datetime).toBe(null)
+      expect(dateField().val()).toBe('')
+      expect(timeField().val()).toBe('')
     })
   })
 
