@@ -95,7 +95,8 @@ angular.module('sport.ng')
         ngModel.$parsers.push(toModel)
 
         element.on('blur', function() {
-          element.val(fromModel(ngModel.$modelValue))
+          ngModel.$viewValue = fromModel(ngModel.$modelValue)
+          ngModel.$render()
         })
 
       }
