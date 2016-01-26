@@ -1,7 +1,7 @@
 <fieldset class="field group padded minimal">
   <label for="{{name}}Date" i18ng="translationKey"></label>
   <div class="column x60">
-    <input datepicker type="text" id="{{name}}Date" ng-model="dateObj.date" allow-blank="allowBlank" class="x100"  />
+    <input datepicker type="text" id="{{name}}Date" ng-model="dateObj.date" blank-valid="true" class="x100" />
   </div>
   <div class="column x40">
     <input timepicker type="text" id="{{name}}Time" print-format="printFormat" ng-model="dateObj.time" class="x100" ng-disabled="!dateObj.date"  />
