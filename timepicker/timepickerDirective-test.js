@@ -124,20 +124,6 @@ describe('TimepickerDirective', function () {
 
   })
 
-  describe('#print custom function', function(){
-    beforeEach(function(){
-      $parentScope.timeval = '23:00'
-      $parentScope.format = function() { return 'rm -fr /' }
-      compileDirective('<input timepicker ng-model="timeval" print-format="format" />')
-    })
-
-    it('should override default print function', function(){
-      expect(elm.val()).toEqual('rm -fr /')
-      expect($parentScope.timeval).toEqual('23:00')
-    })
-
-  })
-
   describe('#print custom format', function(){
     beforeEach(function(){
       $parentScope.timeval = '23:00'
@@ -191,16 +177,16 @@ describe('TimepickerDirective', function () {
       compileDirective('<input timepicker ng-model="timeval" allowtbd="tbd" />')
     })
 
-    it('should transform "tbd" to "" when TBD is allowed', function() {
+    it('should transform "tbd" to undefined when TBD is allowed', function() {
       changeInput(elm, 'tbd')
       expect(elm.val()).toEqual('')
-      expect($parentScope.timeval).toEqual('')
+      expect($parentScope.timeval).toBeUndefined()
     })
 
-    it('should transform an "TBD" to "" when TBD is allowed', function() {
+    it('should transform an "TBD" to undefined when TBD is allowed', function() {
       changeInput(elm, 'TBD')
       expect(elm.val()).toEqual('')
-      expect($parentScope.timeval).toEqual('')
+      expect($parentScope.timeval).toBeUndefined()
     })
 
   })
@@ -227,21 +213,6 @@ describe('TimepickerDirective', function () {
       changeInput(elm, '2 am')
       expect(elm.val()).toEqual('2:00 am')
       expect($parentScope.timeval).toEqual('02:00')
-    })
-
-  })
-
-  describe('#parse custom function', function(){
-    beforeEach(function(){
-      $parentScope.timeval = '23:00'
-      $parentScope.format = function() { return moment('9:00am', 'h:mma') }
-      compileDirective('<input timepicker ng-model="timeval" parse="format" />')
-    })
-
-    it('should override the default parse function', function(){
-      changeInput(elm, '10:00 pm')
-      expect(elm.val()).toEqual('9:00 am')
-      expect($parentScope.timeval).toEqual('09:00')
     })
 
   })

@@ -21,28 +21,20 @@ allowtbd attribute:
 print attribute:
   The print attribute is optional and converts a time string value to a date
   set to `h:mm a` by default
-  must be one of the following:
-  1. moment date format string
-  2. function accepting the following parameters: val (moment object), allowTBD (boolean), and returning a time string to display
+  must be a moment date format string
 
 parse attribute:
   This parse attribute is optional and converts an entered string into a moment time
   set to `['h:ma', 'H:m', 'hma', 'Hm']` by default
-  must be one of the following:
-  1. moment date format string or array of such strings
-  2. function accepting the following paramters: val (string), allowTBD (boolean), and returning a moment object to be saved
+  must be a moment date format string or array of such strings
 
 */
 
 ;(function() {
 'use strict'
 
-var parse = function(val, format, allowTBD) {
-  if (angular.isFunction(format)) {
-    return format(val, allowTBD)
-  }
+var parse = function(val, format) {
   val = val.trim()
-  if (allowTBD && (!val || val.toUpperCase() == 'TBD')) return moment('TBD')
 
   var time = val.replace(/[^\d:ap]/gi, '')
   var momentTime = moment(time, format)
@@ -51,10 +43,7 @@ var parse = function(val, format, allowTBD) {
   return momentTime
 }
 
-function print(time, format, allowTBD) {
-  if (angular.isFunction(format) ) {
-    return format(time, allowTBD)
-  }
+function print(time, format) {
   // roll 24:00 over to 0:00
   if (time.parsingFlags().overflow != -1) time = moment(time.toDate())
   if (!time.isValid()){
@@ -84,16 +73,21 @@ angular.module('sport.ng')
       link: function(scope, element, attrs, ngModel) {
 
         function getScopeOpt(opt) { return scope[opt] || defaults[opt] }
+        function tbdViewValue(val) {
+          if (!getScopeOpt('allowtbd')) return false
+          return (!val || val.toUpperCase() == 'TBD')
+        }
 
         if (getScopeOpt('allowtbd') && !('placeholder' in attrs)) element.attr('placeholder', i18ng.t('time_tbd'))
 
         function fromModel(modelValue) {
-          return print(moment(modelValue, getScopeOpt('saveFormat')), getScopeOpt('printFormat'), getScopeOpt('allowtbd'))
+          return print(moment(modelValue, getScopeOpt('saveFormat')), getScopeOpt('printFormat'))
         }
 
         function toModel(viewValue) {
-          var newTime = parse(viewValue, getScopeOpt('parse'), getScopeOpt('allowtbd'))
-          if (newTime._i == 'TBD') return ''
+          if (tbdViewValue(viewValue)) return undefined
+
+          var newTime = parse(viewValue, getScopeOpt('parse'))
           return newTime.isValid() ? newTime.format(getScopeOpt('saveFormat')) : ngModel.$modelValue
         }
 
@@ -101,7 +95,8 @@ angular.module('sport.ng')
         ngModel.$parsers.push(toModel)
 
         element.on('blur', function() {
-          element.val(fromModel(ngModel.$modelValue))
+          ngModel.$viewValue = fromModel(ngModel.$modelValue)
+          ngModel.$render()
         })
 
       }

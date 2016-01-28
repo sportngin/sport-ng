@@ -57,6 +57,9 @@ angular.module('sport.ng')
     return {
       restrict: 'A',
       require: 'ngModel',
+      scope: {
+        blankValid: '='
+      },
       link: function(scope, element, attrs, ngModel) {
         element.addClass('datepicker')
 
@@ -74,9 +77,14 @@ angular.module('sport.ng')
           return (moment(date).isValid() && !!date) ? moment(date).format('MMMM D YYYY'): ''
         }
 
-        function modelFormat(date) {
+        function modelFormat(dateStr) {
+          if(scope.blankValid && dateStr == '') {
+            ngModel.$setValidity('date', true)
+            return undefined
+          }
+
           var formats = ['MMMM D YYYY', 'MM DD YYYY']
-          var date = moment(date, formats)
+          var date = moment(dateStr, formats)
           // angular validation. improve when we update to >=1.3.0
           var valid = date.isValid()
           ngModel.$setValidity('date', valid)

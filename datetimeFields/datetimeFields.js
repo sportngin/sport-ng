@@ -32,6 +32,10 @@ angular.module('sport.ng')
       setFormat($scope.timeFormat)
       $scope.$watch('timeFormat', function (timeFormat) { setFormat(timeFormat) })
 
+      $scope.$watch('dateObj.date', function (date) {
+        if(typeof date === 'undefined') $scope.dateObj.time = undefined
+      })
+
       $scope.$watch('datetime', function (datetime) {
         if (datetime){
           var timezone = $scope.timezone
